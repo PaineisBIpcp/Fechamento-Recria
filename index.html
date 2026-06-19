@@ -58,7 +58,6 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
 
 /* SIDEBAR */
 #sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:var(--verde-forte);overflow-y:auto;z-index:100;display:flex;flex-direction:column;}
-
 .sidebar-logo{padding:1.5rem 1.25rem 1.2rem;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:.5rem;}
 .sidebar-logo-eyebrow{font-size:.58rem;font-weight:600;color:rgba(251,190,19,.6);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.45rem;}
 .sidebar-logo-name{font-family:'Space Grotesk',sans-serif;font-size:1.25rem;font-weight:700;color:#fff;letter-spacing:-.02em;line-height:1;}
@@ -66,7 +65,6 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
 .sidebar-logo-tag{display:inline-flex;align-items:center;gap:.35rem;margin-top:.55rem;background:rgba(251,190,19,.12);border:1px solid rgba(251,190,19,.2);border-radius:4px;padding:.2rem .5rem;}
 .sidebar-logo-tag-dot{width:5px;height:5px;background:var(--amarelo-forte);border-radius:50%;flex-shrink:0;}
 .sidebar-logo-tag-text{font-size:.58rem;font-weight:700;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.1em;}
-
 .sidebar-section-label{font-size:.6rem;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.1em;padding:.8rem 1.25rem .3rem;}
 .nav-item{display:flex;align-items:center;gap:.65rem;padding:.55rem 1.25rem;color:rgba(255,255,255,.55);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .15s;border-left:3px solid transparent;text-decoration:none;margin:.05rem 0;}
 .nav-item:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.06);}
@@ -91,20 +89,9 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
 .filter-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);}
 .filter-select{padding:.5rem .75rem;border:1px solid var(--border);border-radius:6px;font-size:.82rem;font-family:'Inter',sans-serif;color:var(--text-1);background:#f8fafc;cursor:pointer;transition:border-color .15s;outline:none;min-width:150px;}
 .filter-select:focus{border-color:var(--verde-forte);}
-
-/* Destaque visual no select de Unidade */
 #filter-unidade{border-color:var(--verde-forte);background:rgba(1,67,51,.04);}
 #filter-unidade:focus{border-color:var(--amarelo-forte);}
-
-.filter-unidade-wrap .filter-label::after{
-  content:' ↳ gráfico';
-  font-size:.55rem;
-  font-weight:700;
-  color:var(--amarelo-forte);
-  margin-left:.3rem;
-  letter-spacing:.04em;
-}
-
+.filter-unidade-wrap .filter-label::after{content:' ↳ gráfico';font-size:.55rem;font-weight:700;color:var(--amarelo-forte);margin-left:.3rem;letter-spacing:.04em;}
 .filter-btn{padding:.5rem 1.1rem;background:var(--verde-forte);color:#fff;border:none;border-radius:6px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s;white-space:nowrap;}
 .filter-btn:hover{background:#025f47;}
 .filter-btn.secondary{background:transparent;color:var(--text-2);border:1px solid var(--border);}
@@ -117,22 +104,9 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
 .kpi-val{font-size:1.55rem;font-weight:800;line-height:1;margin-bottom:.3rem;}
 .kpi-sub{font-size:.72rem;color:var(--text-2);}
 
-/* CHART FILTER BADGE — mostra o filtro ativo do gráfico */
-.chart-filter-badge{
-  display:inline-flex;align-items:center;gap:.4rem;
-  background:rgba(1,67,51,.07);
-  border:1px solid rgba(1,67,51,.18);
-  border-radius:20px;
-  padding:.2rem .65rem;
-  font-size:.65rem;font-weight:700;
-  color:var(--verde-forte);
-  margin-left:.5rem;
-}
-.chart-filter-badge.all{
-  background:rgba(148,163,184,.1);
-  border-color:rgba(148,163,184,.25);
-  color:var(--text-3);
-}
+/* CHART FILTER BADGE */
+.chart-filter-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(1,67,51,.07);border:1px solid rgba(1,67,51,.18);border-radius:20px;padding:.2rem .65rem;font-size:.65rem;font-weight:700;color:var(--verde-forte);margin-left:.5rem;}
+.chart-filter-badge.all{background:rgba(148,163,184,.1);border-color:rgba(148,163,184,.25);color:var(--text-3);}
 
 /* SECTION HDR */
 .section-hdr{display:flex;align-items:center;gap:.6rem;margin-bottom:1.1rem;}
@@ -144,28 +118,122 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
 .chart-block-title{font-size:.72rem;font-weight:700;color:var(--verde-forte);text-transform:uppercase;letter-spacing:.07em;margin-bottom:1.1rem;padding-bottom:.7rem;border-bottom:2px solid #eef2f0;display:flex;align-items:center;gap:.6rem;flex-shrink:0;}
 .chart-block-title::before{content:'';display:inline-block;width:8px;height:8px;background:var(--amarelo-forte);border-radius:2px;flex-shrink:0;}
 
-.chart-pro-wrap{display:flex;flex-direction:row;gap:0;height:auto;flex:1;min-height:450px;align-items:stretch;border:1px solid #eef2f0;border-radius:8px;overflow:hidden;margin-bottom:1.25rem;}
-.chart-line-panel{position:relative;flex:1;min-width:0;border-left:1px solid #eef2f0;display:flex;flex-direction:column;}
-.chart-line-inner{position:relative;flex:1;width:100%;height:100%;padding:.75rem;}
-.chart-line-inner canvas{display:block;width:100% !important;height:100% !important;}
+/* ── CHART PRO WRAP: painel único à esquerda + gráfico ── */
+.chart-pro-wrap{
+  display:flex;
+  flex-direction:row;
+  gap:0;
+  flex:1;
+  min-height:450px;
+  align-items:stretch;
+  border:1px solid #eef2f0;
+  border-radius:8px;
+  overflow:hidden;
+  margin-bottom:1.25rem;
+}
 
-.acum-panel{display:flex;flex-direction:column;background:#fafbfa;padding:.85rem .75rem;border-right:1px solid #eef2f0;flex-shrink:0;}
-.acum-panel-header{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-3);margin-bottom:.5rem;padding-bottom:.4rem;border-bottom:1px solid #eef2f0;white-space:nowrap;}
-.acum-panel-year{font-size:.95rem;font-weight:800;color:var(--verde-forte);margin-bottom:.1rem;}
-.acum-panel-val{font-size:1.4rem;font-weight:800;line-height:1;margin-bottom:.25rem;}
-.acum-panel-meta-row{display:flex;align-items:center;gap:.35rem;margin-bottom:.55rem;}
-.acum-panel-meta-label{font-size:.58rem;color:var(--text-3);}
-.acum-panel-meta-val{font-size:.72rem;font-weight:700;color:var(--text-2);}
-.acum-badge{display:inline-flex;align-items:center;padding:.18rem .5rem;border-radius:4px;font-size:.65rem;font-weight:700;margin-bottom:.7rem;}
-.acum-badge-up{background:rgba(0,200,80,.1);color:rgb(0,140,55);}
+/* ── PAINEL ÚNICO: cur em cima, prev embaixo ── */
+.acum-panel-combined{
+  display:flex;
+  flex-direction:column;
+  width:160px;
+  flex-shrink:0;
+  background:#fafbfa;
+  border-right:1px solid #eef2f0;
+}
+
+/* Bloco ANO ATUAL */
+.acum-cur{
+  padding:.85rem .8rem 1rem;
+  border-bottom:1px solid #eef2f0;
+  flex:1;
+}
+.acum-section-label{
+  font-size:.55rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--text-3);
+  margin-bottom:.4rem;
+}
+.acum-year{
+  font-size:.82rem;
+  font-weight:800;
+  color:var(--verde-forte);
+  margin-bottom:.15rem;
+}
+.acum-val{
+  font-size:1.55rem;
+  font-weight:800;
+  line-height:1.1;
+  margin-bottom:.2rem;
+}
+.acum-ref-row{
+  font-size:.65rem;
+  color:var(--text-3);
+  margin-bottom:.35rem;
+}
+.acum-ref-row strong{
+  color:var(--text-2);
+  font-weight:700;
+}
+.acum-badge{
+  display:inline-flex;
+  align-items:center;
+  padding:.15rem .45rem;
+  border-radius:4px;
+  font-size:.65rem;
+  font-weight:700;
+}
+.acum-badge-up  {background:rgba(0,200,80,.1);color:rgb(0,140,55);}
 .acum-badge-down{background:rgba(220,38,38,.1);color:#DC2626;}
 .acum-badge-warn{background:rgba(245,158,11,.12);color:rgb(180,110,0);}
 
-.acum-months-wrap{flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:3px;margin-top:.4rem;}
-.acum-month-row{display:flex;align-items:center;gap:.3rem;}
-.acum-month-lbl{font-size:.52rem;color:var(--text-3);width:22px;flex-shrink:0;text-align:right;}
-.acum-month-bar-bg{flex:1;height:10px;background:#eef0ee;border-radius:2px;overflow:hidden;}
-.acum-month-bar-fill{height:100%;border-radius:2px;}
+/* Bloco ANO ANTERIOR — compacto */
+.acum-prev{
+  padding:.7rem .8rem;
+  background:#f5f7f6;
+}
+.acum-prev-label{
+  font-size:.52rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--text-3);
+  margin-bottom:.3rem;
+}
+.acum-prev-year{
+  font-size:.72rem;
+  font-weight:700;
+  color:var(--text-2);
+  margin-bottom:.1rem;
+}
+.acum-prev-val{
+  font-size:1.05rem;
+  font-weight:800;
+  color:var(--text-2);
+  line-height:1.1;
+  margin-bottom:.15rem;
+}
+.acum-prev-ref{
+  font-size:.6rem;
+  color:var(--text-3);
+  margin-bottom:.25rem;
+}
+.acum-prev-ref strong{color:var(--text-2);}
+.acum-badge-sm{
+  display:inline-flex;
+  align-items:center;
+  padding:.1rem .35rem;
+  border-radius:3px;
+  font-size:.6rem;
+  font-weight:700;
+}
+
+/* Painel de gráfico */
+.chart-line-panel{position:relative;flex:1;min-width:0;border-left:1px solid #eef2f0;display:flex;flex-direction:column;}
+.chart-line-inner{position:relative;flex:1;width:100%;height:100%;padding:.75rem;}
+.chart-line-inner canvas{display:block;width:100% !important;height:100% !important;}
 
 /* TABLE */
 .data-table-wrap{overflow-x:auto;border-top:2px solid #eef2f0;padding-top:1rem;flex-shrink:0;}
@@ -274,7 +342,6 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
         <label class="filter-label">Ano / Mês</label>
         <select class="filter-select" id="filter-anomes" onchange="applyFilters()"><option value="">Todos</option></select>
       </div>
-      <!-- Unidade: controla GRÁFICO + dados -->
       <div class="filter-group filter-unidade-wrap">
         <label class="filter-label">Unidade</label>
         <select class="filter-select" id="filter-unidade" onchange="applyFilters()"><option value="">Todas</option></select>
@@ -284,7 +351,7 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
         <select class="filter-select" id="filter-granja" onchange="applyFilters()"><option value="">Todas</option></select>
       </div>
       <div class="filter-group">
-        <label class="filter-label">Lote / Contrato</label>
+        <label class="filter-label">Lote</label>
         <select class="filter-select" id="filter-lote" onchange="applyFilters()"><option value="">Todos</option></select>
       </div>
       <button class="filter-btn secondary" onclick="clearFilters()">Limpar</button>
@@ -296,10 +363,9 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
     <div id="page-viabilidade" class="nav-page active">
       <div class="section-hdr"><div class="section-hdr-bar"></div><div class="section-hdr-title">Viabilidade de Recria</div></div>
       <div class="chart-block">
-        <div class="chart-block-title" id="title-viabilidade">% Viabilidade — Lotes Fechados</div>
+        <div class="chart-block-title" id="title-viabilidade">% Viabilidade — Realizado vs Padrão</div>
         <div class="chart-pro-wrap" id="pro-viabilidade">
-          <div class="acum-panel" id="panel-cur-viabilidade"></div>
-          <div class="acum-panel" id="panel-prev-viabilidade"></div>
+          <div class="acum-panel-combined" id="panel-viabilidade"></div>
           <div class="chart-line-panel"><div class="chart-line-inner"><canvas id="chart-viabilidade"></canvas></div></div>
         </div>
         <div class="data-table-wrap"><table class="data-table" id="table-viabilidade"><thead></thead><tbody></tbody></table></div>
@@ -310,10 +376,9 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
     <div id="page-racao" class="nav-page">
       <div class="section-hdr"><div class="section-hdr-bar"></div><div class="section-hdr-title">Ração / Fêmea</div></div>
       <div class="chart-block">
-        <div class="chart-block-title" id="title-racao">KG Ração por Fêmea — Realizado vs Previsto</div>
+        <div class="chart-block-title" id="title-racao">KG Ração por Fêmea — Realizado vs Padrão</div>
         <div class="chart-pro-wrap" id="pro-racao">
-          <div class="acum-panel" id="panel-cur-racao"></div>
-          <div class="acum-panel" id="panel-prev-racao"></div>
+          <div class="acum-panel-combined" id="panel-racao"></div>
           <div class="chart-line-panel"><div class="chart-line-inner"><canvas id="chart-racao"></canvas></div></div>
         </div>
         <div class="data-table-wrap"><table class="data-table" id="table-racao"><thead></thead><tbody></tbody></table></div>
@@ -326,8 +391,7 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
       <div class="chart-block">
         <div class="chart-block-title" id="title-custo">R$/Fêmea Recriada — Realizado vs Meta</div>
         <div class="chart-pro-wrap" id="pro-custo">
-          <div class="acum-panel" id="panel-cur-custo"></div>
-          <div class="acum-panel" id="panel-prev-custo"></div>
+          <div class="acum-panel-combined" id="panel-custo"></div>
           <div class="chart-line-panel"><div class="chart-line-inner"><canvas id="chart-custo"></canvas></div></div>
         </div>
         <div class="data-table-wrap"><table class="data-table" id="table-custo"><thead></thead><tbody></tbody></table></div>
@@ -340,8 +404,7 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
       <div class="chart-block">
         <div class="chart-block-title" id="title-custosm">R$/Fêmea Sem Matriz e Ração — Realizado vs Meta</div>
         <div class="chart-pro-wrap" id="pro-custosm">
-          <div class="acum-panel" id="panel-cur-custosm"></div>
-          <div class="acum-panel" id="panel-prev-custosm"></div>
+          <div class="acum-panel-combined" id="panel-custosm"></div>
           <div class="chart-line-panel"><div class="chart-line-inner"><canvas id="chart-custosm"></canvas></div></div>
         </div>
         <div class="data-table-wrap"><table class="data-table" id="table-custosm"><thead></thead><tbody></tbody></table></div>
@@ -351,24 +414,43 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
 </div>
 
 <script>
-/* ══════════════════════════════════════════
-   STATE
-   FILTERED      → dados para KPI + painéis acumulados + tabelas (todos os filtros)
-   CHART_DATA    → dados exclusivamente para os gráficos (só filtro Unidade)
-   CHART_UNIDADE → valor de Unidade em vigor nos gráficos
-══════════════════════════════════════════ */
+const COL = {
+  ANOMES:   'Ano/Mês',
+  UNIDADE:  'Unidade',
+  GRANJA:   'Granja',
+  LOTE:     'Lote',
+  E:        'Femeas Aloj.',
+  F_VIAB:   'Saldo Fmeas Viab.',
+  F_CUSTO:  'Saldo Fmeas Custo',
+  G:        'Femeas Prd.',
+  H:        'Ração',
+  I:        'Ração Prev. femea Qt',
+  J:        'R$ Total',
+  K:        'Meta R$',
+  L:        'R$ Total Sem Matriz/Racao',
+  M:        'Meta R$ Sem Matriz/Racao',
+  E_ANT:        'Femeas Aloj. Ant',
+  F_VIAB_ANT:   'Saldo Fmeas Viab. Ant',
+  F_CUSTO_ANT:  'Saldo Fmeas Custo Ant',
+  G_ANT:        'Femeas Prd. Ant',
+  H_ANT:        'Ração Ant',
+  I_ANT:        'Ração Prev. femea Qt Ant',
+  J_ANT:        'R$ Total Ant',
+  K_ANT:        'Meta R$ Ant',
+  L_ANT:        'R$ Total Sem Matriz/Racao Ant',
+  M_ANT:        'Meta R$ Sem Matriz/Racao Ant'
+};
+
 let RAW_DATA = [], FILTERED = [], CHART_DATA = [], CHARTS = {}, currentFile = '';
 let pendingFile = null;
-let CHART_UNIDADE = ''; // '' = todas as unidades
+let CHART_UNIDADE = '';
 
-/* ══════════════════════════════════════════
-   UPLOAD
-══════════════════════════════════════════ */
-const dropZone  = document.getElementById('drop-zone');
-const fileInput = document.getElementById('file-input');
-const loadBtn   = document.getElementById('load-btn');
-const fileNameEl= document.getElementById('file-name-display');
-const errorEl   = document.getElementById('upload-error');
+/* ── UPLOAD ── */
+const dropZone   = document.getElementById('drop-zone');
+const fileInput  = document.getElementById('file-input');
+const loadBtn    = document.getElementById('load-btn');
+const fileNameEl = document.getElementById('file-name-display');
+const errorEl    = document.getElementById('upload-error');
 
 dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
 dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
@@ -409,36 +491,35 @@ loadBtn.addEventListener('click', () => {
   reader.readAsArrayBuffer(pendingFile);
 });
 
-/* ══════════════════════════════════════════
-   PARSE
-══════════════════════════════════════════ */
-function nk(k) { return (k||'').toString().trim().replace(/\u00a0/g,' ').replace(/\s+/g,' '); }
+/* ── PARSE ── */
+function nk(k) { return (k||'').toString().replace(/\r/g,'').replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim(); }
 
 function parseData(rows) {
   const norm = rows.map(r => { const o={}; Object.keys(r).forEach(k => { o[nk(k)]=r[k]; }); return o; });
   let lastAno='', lastGranja='', lastUnidade='';
   const filled = norm.map(r => {
-    const ano      = (r['Ano/Mês']||'').toString().trim();
-    const granja   = (r['Granja']||'').toString().trim();
-    const unidade  = (r['Unidade']||'').toString().trim();
-    if (ano && ano.toLowerCase()!=='total') lastAno=ano;
-    if (unidade) lastUnidade=unidade;
-    if (granja)  lastGranja=granja;
-    return { ...r, 'Ano/Mês': lastAno, 'Granja': granja||lastGranja, 'Unidade': unidade||lastUnidade };
+    const ano     = (r[COL.ANOMES]  ||'').toString().trim();
+    const granja  = (r[COL.GRANJA]  ||'').toString().trim();
+    const unidade = (r[COL.UNIDADE] ||'').toString().trim();
+    if (ano && ano.toLowerCase()!=='total') lastAno = ano;
+    if (unidade) lastUnidade = unidade;
+    if (granja)  lastGranja  = granja;
+    return { ...r,
+      [COL.ANOMES]:  lastAno,
+      [COL.GRANJA]:  granja  || lastGranja,
+      [COL.UNIDADE]: unidade || lastUnidade
+    };
   });
   RAW_DATA = filled.filter(r => {
-    const a=(r['Ano/Mês']||'').toLowerCase();
-    return a && a!=='total' && a!=='ano/mês' && r['Lote'];
+    const a = (r[COL.ANOMES]||'').toLowerCase();
+    return a && a!=='total' && a!=='ano/mês' && r[COL.LOTE];
   });
   if (!RAW_DATA.length) {
     document.getElementById('loading').classList.remove('visible');
-    errorEl.textContent='Nenhum dado encontrado.'; errorEl.classList.add('visible'); return;
+    errorEl.textContent = 'Nenhum dado encontrado. Verifique os cabeçalhos da planilha.';
+    errorEl.classList.add('visible'); return;
   }
-
-  FILTERED    = [...RAW_DATA];
-  CHART_DATA  = [...RAW_DATA];
-  CHART_UNIDADE = '';
-
+  FILTERED = [...RAW_DATA]; CHART_DATA = [...RAW_DATA]; CHART_UNIDADE = '';
   populateFilters();
   document.getElementById('sidebar-filename').textContent = currentFile;
   document.getElementById('loading').classList.remove('visible');
@@ -447,24 +528,49 @@ function parseData(rows) {
   renderAll();
 }
 
-/* ══════════════════════════════════════════
-   FILTERS
-══════════════════════════════════════════ */
+/* ── CÁLCULOS ── */
+function n(v) { return parseFloat((v||'').toString().replace(',','.')) || 0; }
+function sumCol(rows, col) { return rows.reduce((s,r) => s + n(r[col]), 0); }
+function ratio(rows, numCol, denCol) {
+  const den = sumCol(rows, denCol);
+  return den !== 0 ? sumCol(rows, numCol) / den : 0;
+}
+
+/* ── HELPERS ── */
+function fmt(v, dec=2)  { return parseFloat(v).toLocaleString('pt-BR',{minimumFractionDigits:dec,maximumFractionDigits:dec}); }
+function fmtK(v)        { const x=parseFloat(v)||0; if(Math.abs(x)>=1e6) return (x/1e6).toFixed(2)+'M'; if(Math.abs(x)>=1e3) return (x/1e3).toFixed(1)+'K'; return x.toFixed(0); }
+function getYear(ym)    { return (ym||'').slice(0,4); }
+function getMonths(d)   { return [...new Set(d.map(r=>r[COL.ANOMES]))].filter(Boolean).sort(); }
+function groupByMes(d)  { const m={}; d.forEach(r=>{ const k=r[COL.ANOMES]; if(!m[k])m[k]=[]; m[k].push(r); }); return m; }
+function getYears(data) {
+  const ys = [...new Set(data.map(r=>getYear(r[COL.ANOMES])).filter(Boolean))].sort();
+  return { cur: ys[ys.length-1]||'', prev: ys[ys.length-2]||'' };
+}
+
+function semBadge(diff, invertLogic) {
+  let cls, arrow;
+  if (invertLogic) {
+    cls   = diff <= 0 ? 'badge-up' : diff <= 2 ? 'badge-warn' : 'badge-down';
+    arrow = diff <= 0 ? '▼' : '▲';
+  } else {
+    cls   = diff >= 0 ? 'badge-up' : diff >= -2 ? 'badge-warn' : 'badge-down';
+    arrow = diff >= 0 ? '▲' : '▼';
+  }
+  return `<span class="badge ${cls}">${arrow} ${fmt(Math.abs(diff))}</span>`;
+}
+
+/* ── FILTERS ── */
 function populateFilters() {
-  const anos     = [...new Set(RAW_DATA.map(r=>r['Ano/Mês']).filter(Boolean))].sort();
-  const unidades = [...new Set(RAW_DATA.map(r=>r['Unidade']).filter(Boolean))].sort();
-  const granjas  = [...new Set(RAW_DATA.map(r=>r['Granja']).filter(Boolean))].sort();
-  const lotes    = [...new Set(RAW_DATA.map(r=>(r['Lote']||'').toString()).filter(Boolean))].sort();
-  fillSel('filter-anomes',   anos);
-  fillSel('filter-unidade',  unidades);
-  fillSel('filter-granja',   granjas);
-  fillSel('filter-lote',     lotes);
+  fillSel('filter-anomes',  [...new Set(RAW_DATA.map(r=>r[COL.ANOMES]).filter(Boolean))].sort());
+  fillSel('filter-unidade', [...new Set(RAW_DATA.map(r=>r[COL.UNIDADE]).filter(Boolean))].sort());
+  fillSel('filter-granja',  [...new Set(RAW_DATA.map(r=>r[COL.GRANJA]).filter(Boolean))].sort());
+  fillSel('filter-lote',    [...new Set(RAW_DATA.map(r=>(r[COL.LOTE]||'').toString()).filter(Boolean))].sort());
 }
 function fillSel(id, vals) {
-  const s = document.getElementById(id), cur = s.value;
-  s.innerHTML = '<option value="">Todos</option>';
-  vals.forEach(v => { const o=document.createElement('option'); o.value=v; o.textContent=v; s.appendChild(o); });
-  s.value = cur;
+  const s=document.getElementById(id), cur=s.value;
+  s.innerHTML='<option value="">Todos</option>';
+  vals.forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; s.appendChild(o); });
+  s.value=cur;
 }
 
 function applyFilters() {
@@ -472,104 +578,90 @@ function applyFilters() {
   const unidade = document.getElementById('filter-unidade').value;
   const granja  = document.getElementById('filter-granja').value;
   const lote    = document.getElementById('filter-lote').value;
-
-  /* ── FILTERED: todos os filtros (KPI + painéis + tabelas) ── */
   FILTERED = RAW_DATA.filter(r => {
-    if (ano     && r['Ano/Mês']             !== ano)      return false;
-    if (unidade && r['Unidade']             !== unidade)  return false;
-    if (granja  && r['Granja']              !== granja)   return false;
-    if (lote    && (r['Lote']||'').toString()!== lote)   return false;
+    if (ano     && r[COL.ANOMES]               !== ano)    return false;
+    if (unidade && r[COL.UNIDADE]              !== unidade) return false;
+    if (granja  && r[COL.GRANJA]               !== granja)  return false;
+    if (lote    && (r[COL.LOTE]||'').toString() !== lote)  return false;
     return true;
   });
-
-  /* ── CHART_DATA: SOMENTE filtro de Unidade (gráfico) ── */
   const unidadeChanged = unidade !== CHART_UNIDADE;
   if (unidadeChanged) {
     CHART_UNIDADE = unidade;
-    CHART_DATA = unidade
-      ? RAW_DATA.filter(r => r['Unidade'] === unidade)
-      : [...RAW_DATA];
+    CHART_DATA = unidade ? RAW_DATA.filter(r=>r[COL.UNIDADE]===unidade) : [...RAW_DATA];
   }
-
   renderAll(unidadeChanged);
 }
 
 function clearFilters() {
-  ['filter-anomes','filter-unidade','filter-granja','filter-lote'].forEach(id => document.getElementById(id).value = '');
-  FILTERED      = [...RAW_DATA];
-  CHART_DATA    = [...RAW_DATA];
-  CHART_UNIDADE = '';
-  renderAll(true); // limpar também redesenha o gráfico
+  ['filter-anomes','filter-unidade','filter-granja','filter-lote'].forEach(id=>document.getElementById(id).value='');
+  FILTERED=[...RAW_DATA]; CHART_DATA=[...RAW_DATA]; CHART_UNIDADE='';
+  renderAll(true);
 }
 
-/* ══════════════════════════════════════════
-   NAVIGATION
-══════════════════════════════════════════ */
+/* ── NAVIGATION ── */
 const PAGE_LABELS = {
   viabilidade:'Viabilidade de Recria',
   racao:'Ração / Fêmea',
   custo:'Custo Franga Recriada',
   custosm:'Custo S/ Matriz e Ração'
 };
+let currentPage = 'viabilidade';
+
 function setPage(page, el) {
+  currentPage = page;
   document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));
   if (el) el.classList.add('active');
   document.querySelectorAll('.nav-page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+page).classList.add('active');
   document.getElementById('active-page-label').textContent = PAGE_LABELS[page]||'';
-  setTimeout(() => { Object.values(CHARTS).forEach(c=>c.resize()); }, 50);
+  renderKPIs();
+  setTimeout(()=>{ Object.values(CHARTS).forEach(c=>c.resize()); }, 50);
 }
 
-/* ══════════════════════════════════════════
-   HELPERS
-══════════════════════════════════════════ */
-function n(v){ return parseFloat(v)||0; }
-function fmt(v,dec=2){ return n(v).toLocaleString('pt-BR',{minimumFractionDigits:dec,maximumFractionDigits:dec}); }
-function fmtK(v){ const x=n(v); if(Math.abs(x)>=1e6) return (x/1e6).toFixed(2)+'M'; if(Math.abs(x)>=1e3) return (x/1e3).toFixed(1)+'K'; return x.toFixed(2); }
-function getMonths(d){ return [...new Set(d.map(r=>r['Ano/Mês']))].filter(Boolean).sort(); }
-function groupByMes(d){ const m={}; d.forEach(r=>{ const k=r['Ano/Mês']; if(!m[k])m[k]=[]; m[k].push(r); }); return m; }
-function getYear(ym){ return (ym||'').slice(0,4); }
-
-function wavg(rows, valKey, weightKey) {
-  let sv=0, sw=0;
-  rows.forEach(r=>{ const w=n(r[weightKey]); sv+=n(r[valKey])*w; sw+=w; });
-  return sw>0 ? sv/sw : 0;
-}
-
-function badgeCls(diff){ return diff>=0?'badge-up':diff>=-2?'badge-warn':'badge-down'; }
-function badgeArrow(diff){ return diff>=0?'▲':'▼'; }
-function semBadge(diff){
-  const cls=badgeCls(diff);
-  return `<span class="badge ${cls}">${badgeArrow(diff)} ${fmt(Math.abs(diff))}</span>`;
-}
-
-function getYears(data) {
-  const ys = [...new Set(data.map(r=>getYear(r['Ano/Mês'])).filter(Boolean))].sort();
-  return { cur: ys[ys.length-1]||'', prev: ys[ys.length-2]||'', all: ys };
-}
-
-/* ══════════════════════════════════════════
-   CHART DESTROY
-══════════════════════════════════════════ */
-function destroyChart(key){ if(CHARTS[key]){ CHARTS[key].destroy(); delete CHARTS[key]; } }
-
-/* ══════════════════════════════════════════
-   KPI ROW  — usa FILTERED
-══════════════════════════════════════════ */
+/* ── KPIs ── */
 function renderKPIs() {
-  const d = FILTERED;
-  const totalAloj  = d.reduce((s,r)=>s+n(r['Femeas Aloj.']),0);
-  const totalSaldo = d.reduce((s,r)=>s+n(r['Saldo Fmeas']),0);
-  const viab = wavg(d,'%Viabilidade','Saldo Fmeas');
-  const meta = wavg(d,'Meta','Saldo Fmeas');
-  const dif  = viab-meta;
-  const lotes= [...new Set(d.map(r=>r['Lote']))].length;
-  const kpis=[
-    {label:'Fêmeas Alojadas', val:fmtK(totalAloj),           color:'#078CAD', sub:`Saldo: ${fmtK(totalSaldo)}`},
-    {label:'% Viabilidade',   val:fmt(viab)+'%',              color:viab>=meta?'#42684D':'#DC2626', sub:`Meta: ${fmt(meta)}%`},
-    {label:'Dif. Padrão',     val:(dif>=0?'+':'')+fmt(dif)+'%', color:dif>=0?'#00C850':'#DC2626', sub:'Viab. vs Meta'},
-    {label:'Lotes',           val:lotes,                      color:'#BBA446', sub:'no período'}
-  ];
+  const d     = FILTERED;
+  const lotes = [...new Set(d.map(r=>r[COL.LOTE]))].length;
+  const lotesKpi = {label:'Lotes', val:lotes, color:'#BBA446', sub:'no período'};
+  let kpis = [];
+  if (currentPage === 'viabilidade') {
+    const totalE=sumCol(d,COL.E), totalFV=sumCol(d,COL.F_VIAB);
+    const viab=totalE>0?(totalFV/totalE)*100:0, padrao=totalE>0?(sumCol(d,COL.G)/totalE)*100:0, dif=viab-padrao;
+    kpis=[
+      {label:'Fêmeas Alojadas',val:fmtK(totalE),color:'#078CAD',sub:`Saldo Viab.: ${fmtK(totalFV)}`},
+      {label:'% Viabilidade',val:fmt(viab)+'%',color:viab>=padrao?'#42684D':'#DC2626',sub:`Padrão: ${fmt(padrao)}%`},
+      {label:'Dif. Padrão',val:(dif>=0?'+':'')+fmt(dif)+'%',color:dif>=0?'#00C850':'#DC2626',sub:'Viab. vs Padrão'},
+      lotesKpi
+    ];
+  } else if (currentPage === 'racao') {
+    const totalF=sumCol(d,COL.F_VIAB);
+    const real=totalF>0?sumCol(d,COL.H)/totalF:0, padrao=totalF>0?sumCol(d,COL.I)/totalF:0, dif=real-padrao;
+    kpis=[
+      {label:'Kg/Fêmea',val:fmt(real,3)+' kg',color:'#42684D',sub:'Realizado'},
+      {label:'Kg/Fêmea Padrão',val:fmt(padrao,3)+' kg',color:'#078CAD',sub:'Padrão'},
+      {label:'Diferença',val:(dif>=0?'+':'')+fmt(dif,3)+' kg',color:dif<=0?'#00C850':'#DC2626',sub:'Real vs Padrão'},
+      lotesKpi
+    ];
+  } else if (currentPage === 'custo') {
+    const totalF=sumCol(d,COL.F_CUSTO);
+    const real=totalF>0?sumCol(d,COL.J)/totalF:0, meta=totalF>0?sumCol(d,COL.K)/totalF:0, dif=real-meta;
+    kpis=[
+      {label:'R$/Fêmea',val:'R$ '+fmt(real,2),color:'#42684D',sub:'Realizado'},
+      {label:'Meta R$/Fêmea',val:'R$ '+fmt(meta,2),color:'#078CAD',sub:'Meta'},
+      {label:'Dif. Meta',val:(dif>=0?'+':'')+fmt(dif,2),color:dif<=0?'#00C850':'#DC2626',sub:'Real vs Meta'},
+      lotesKpi
+    ];
+  } else if (currentPage === 'custosm') {
+    const totalF=sumCol(d,COL.F_CUSTO);
+    const real=totalF>0?sumCol(d,COL.L)/totalF:0, meta=totalF>0?sumCol(d,COL.M)/totalF:0, dif=real-meta;
+    kpis=[
+      {label:'R$/Fêmea S/M&R',val:'R$ '+fmt(real,2),color:'#42684D',sub:'Realizado'},
+      {label:'Meta R$/Fêmea S/M&R',val:'R$ '+fmt(meta,2),color:'#078CAD',sub:'Meta'},
+      {label:'Dif. Meta',val:(dif>=0?'+':'')+fmt(dif,2),color:dif<=0?'#00C850':'#DC2626',sub:'Real vs Meta'},
+      lotesKpi
+    ];
+  }
   document.getElementById('kpi-row').innerHTML = kpis.map(k=>`
     <div class="kpi-card" style="border-bottom-color:${k.color}">
       <div class="kpi-label">${k.label}</div>
@@ -578,299 +670,298 @@ function renderKPIs() {
     </div>`).join('');
 }
 
-/* ══════════════════════════════════════════
-   ACUM PANEL  — usa FILTERED
-══════════════════════════════════════════ */
-function renderAcumPanel(elId, year, rows, valKey, metaKey, weightKey, color, isHighlight, unitPrefix, unitSuffix) {
+/* ── PAINEL COMBINADO: cur em cima + prev embaixo ── */
+function renderCombinedPanel(elId, cd, numCol, denCol, refNumCol, numColAnt, denColAnt, refNumColAnt, prefix, suffix, isPercent, invertDiff, refLabel) {
   const el = document.getElementById(elId);
-  if (!el||!year) { if(el) el.style.display='none'; return; }
-  el.style.display='';
+  if (!el) return;
 
-  const val  = wavg(rows, valKey, weightKey);
-  const meta = metaKey ? wavg(rows, metaKey, weightKey) : null;
-  const dif  = meta!==null ? val-meta : null;
+  const { cur, prev } = getYears(cd);
+  const mul = isPercent ? 100 : 1;
 
-  const byM      = groupByMes(rows);
-  const months   = getMonths(rows);
-  const monthVals= months.map(m => wavg(byM[m]||[], valKey, weightKey));
-  const maxV     = Math.max(...monthVals, 0.001);
+  /* ANO ATUAL */
+  const valCur = ratio(cd, numCol, denCol) * mul;
+  const refCur = refNumCol ? ratio(cd, refNumCol, denCol) * mul : null;
+  const difCur = refCur !== null ? valCur - refCur : null;
 
-  const badgeHtml = dif!==null ? (() => {
-    const cls   = dif>=0?'acum-badge-up':dif>=-2?'acum-badge-warn':'acum-badge-down';
-    const arrow = dif>=0?'▲':'▼';
-    return `<div class="acum-badge ${cls}">${arrow} ${fmt(Math.abs(dif))}${unitSuffix}</div>`;
-  })() : '';
+  let badgeCls, badgeArrow;
+  if (difCur !== null) {
+    if (invertDiff) {
+      badgeCls   = difCur <= 0 ? 'acum-badge-up' : difCur <= 2 ? 'acum-badge-warn' : 'acum-badge-down';
+      badgeArrow = difCur <= 0 ? '▼' : '▲';
+    } else {
+      badgeCls   = difCur >= 0 ? 'acum-badge-up' : difCur >= -2 ? 'acum-badge-warn' : 'acum-badge-down';
+      badgeArrow = difCur >= 0 ? '▲' : '▼';
+    }
+  }
 
-  const metaRowHtml = meta!==null ? `
-    <div class="acum-panel-meta-row">
-      <span class="acum-panel-meta-label">Meta</span>
-      <span class="acum-panel-meta-val">${unitPrefix}${fmt(meta)}${unitSuffix}</span>
-    </div>` : '';
+  const refHtmlCur = refCur !== null ? `
+    <div class="acum-ref-row">${refLabel}: <strong>${prefix}${fmt(refCur)}${suffix}</strong></div>` : '';
+  const badgeHtmlCur = difCur !== null ? `
+    <span class="acum-badge ${badgeCls}">${badgeArrow} ${fmt(Math.abs(difCur))}${suffix}</span>` : '';
 
-  const miniRows = months.slice(-6).map((m, i) => {
-    const v   = monthVals[months.length - months.slice(-6).length + i];
-    const pct = maxV>0 ? Math.min((v/maxV)*100,100) : 0;
-    return `<div class="acum-month-row">
-      <span class="acum-month-lbl">${m.slice(5)}</span>
-      <div class="acum-month-bar-bg"><div class="acum-month-bar-fill" style="width:${pct}%;background:${color};opacity:${isHighlight?'.85':'.5'}"></div></div>
-    </div>`;
-  }).join('');
+  /* ANO ANTERIOR */
+  let prevHtml = '';
+  if (prev && numColAnt) {
+    const valPrev = ratio(cd, numColAnt, denColAnt) * mul;
+    const refPrev = refNumColAnt ? ratio(cd, refNumColAnt, denColAnt) * mul : null;
+    const difPrev = refPrev !== null ? valPrev - refPrev : null;
+
+    let pBadgeCls, pBadgeArrow;
+    if (difPrev !== null) {
+      if (invertDiff) {
+        pBadgeCls   = difPrev <= 0 ? 'acum-badge-up' : difPrev <= 2 ? 'acum-badge-warn' : 'acum-badge-down';
+        pBadgeArrow = difPrev <= 0 ? '▼' : '▲';
+      } else {
+        pBadgeCls   = difPrev >= 0 ? 'acum-badge-up' : difPrev >= -2 ? 'acum-badge-warn' : 'acum-badge-down';
+        pBadgeArrow = difPrev >= 0 ? '▲' : '▼';
+      }
+    }
+
+    const refHtmlPrev = refPrev !== null ? `
+      <div class="acum-prev-ref">${refLabel}: <strong>${prefix}${fmt(refPrev)}${suffix}</strong></div>` : '';
+    const badgeHtmlPrev = difPrev !== null ? `
+      <span class="acum-badge acum-badge-sm ${pBadgeCls}">${pBadgeArrow} ${fmt(Math.abs(difPrev))}${suffix}</span>` : '';
+
+    prevHtml = `
+      <div class="acum-prev">
+        <div class="acum-prev-label">Ano Anterior</div>
+        <div class="acum-prev-year">${prev}</div>
+        <div class="acum-prev-val" style="color:#64748b">${prefix}${fmt(valPrev)}${suffix}</div>
+        ${refHtmlPrev}
+        ${badgeHtmlPrev}
+      </div>`;
+  }
 
   el.innerHTML = `
-    <div class="acum-panel-header">${isHighlight?'ANO ATUAL':'ANO ANTERIOR'}</div>
-    <div class="acum-panel-year">${year}</div>
-    <div class="acum-panel-val" style="color:${color}">${unitPrefix}${fmt(val)}${unitSuffix}</div>
-    ${metaRowHtml}
-    ${badgeHtml}
-    <div class="acum-months-wrap">${miniRows}</div>`;
+    <div class="acum-cur">
+      <div class="acum-section-label">Ano Atual</div>
+      <div class="acum-year">${cur}</div>
+      <div class="acum-val" style="color:var(--verde-militar)">${prefix}${fmt(valCur)}${suffix}</div>
+      ${refHtmlCur}
+      ${badgeHtmlCur}
+    </div>
+    ${prevHtml}`;
 }
 
-/* ══════════════════════════════════════════
-   LINE CHART  — usa CHART_DATA (só Unidade)
-══════════════════════════════════════════ */
+/* ── CHART ── */
 const C = {
   realColor: 'rgb(66,104,77)',
   realBg:    'rgba(66,104,77,.08)',
-  metaColor: 'rgb(251,190,19)',
+  refColor:  'rgb(251,190,19)',
   prevColor: 'rgb(83,209,236)',
 };
 
-function buildProChart(canvasId, key, months, realData, metaData, prevData, prevYear, curYear, yLabel) {
+const inlineLabelsPlugin = {
+  id: 'inlineLabels',
+  afterDatasetsDraw(chart) {
+    const ds = chart.data.datasets[0];
+    if (!ds) return;
+    const meta = chart.getDatasetMeta(0);
+    if (!meta || meta.hidden) return;
+    const ctx2 = chart.ctx;
+    ctx2.save();
+    ctx2.font = '600 9px Inter, sans-serif';
+    ctx2.textAlign = 'center';
+    ctx2.textBaseline = 'bottom';
+    meta.data.forEach((pt, i) => {
+      const val = ds.data[i];
+      if (val === null || val === undefined) return;
+      const dec = (chart.config.options.plugins.inlineLabels||{}).decimals ?? 3;
+      const txt = val.toFixed(dec);
+      const x = pt.x, y = pt.y - 7;
+      const w = ctx2.measureText(txt).width + 6;
+      const rx = x-w/2, ry = y-11, rh = 13, rr = 3;
+      ctx2.fillStyle = 'rgba(255,255,255,0.85)';
+      ctx2.beginPath();
+      ctx2.moveTo(rx+rr,ry); ctx2.lineTo(rx+w-rr,ry);
+      ctx2.arcTo(rx+w,ry,rx+w,ry+rh,rr); ctx2.lineTo(rx+w,ry+rh-rr);
+      ctx2.arcTo(rx+w,ry+rh,rx+w-rr,ry+rh,rr); ctx2.lineTo(rx+rr,ry+rh);
+      ctx2.arcTo(rx,ry+rh,rx,ry+rh-rr,rr); ctx2.lineTo(rx,ry+rr);
+      ctx2.arcTo(rx,ry,rx+rr,ry,rr); ctx2.closePath(); ctx2.fill();
+      ctx2.fillStyle = 'rgb(66,104,77)';
+      ctx2.fillText(txt, x, y);
+    });
+    ctx2.restore();
+  }
+};
+
+function destroyChart(key) { if(CHARTS[key]){ CHARTS[key].destroy(); delete CHARTS[key]; } }
+
+function buildProChart(canvasId, key, months, realData, refData, prevData, prevYear, curYear, yLabel, decimals) {
   destroyChart(key);
   const ctx = document.getElementById(canvasId);
   if (!ctx) return;
-
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
     const datasets = [
       {
-        label: `Realizado ${curYear}`,
-        data: realData,
-        borderColor: C.realColor,
-        backgroundColor: C.realBg,
-        fill: true,
-        tension: .4,
-        pointRadius: 4,
-        pointBackgroundColor: C.realColor,
-        pointBorderColor: '#fff',
-        pointBorderWidth: 2,
-        borderWidth: 2.5,
-        order: 1
+        label:`Realizado ${curYear}`, data:realData,
+        borderColor:C.realColor, backgroundColor:C.realBg,
+        fill:true, tension:.4, pointRadius:4, pointBackgroundColor:C.realColor,
+        pointBorderColor:'#fff', pointBorderWidth:2, borderWidth:2.5, order:1
       },
       {
-        label: 'Meta',
-        data: metaData,
-        borderColor: C.metaColor,
-        borderDash: [6,3],
-        tension: .3,
-        pointRadius: 3,
-        pointBackgroundColor: C.metaColor,
-        fill: false,
-        borderWidth: 2,
-        order: 2
+        label:'Padrão / Meta', data:refData,
+        borderColor:C.refColor, borderDash:[6,3], tension:.3,
+        pointRadius:3, pointBackgroundColor:C.refColor,
+        fill:false, borderWidth:2, order:2
       }
     ];
-
     if (prevData && prevData.some(v=>v!==null)) {
       datasets.push({
-        label: `Realizado ${prevYear}`,
-        data: prevData,
-        borderColor: C.prevColor,
-        borderDash: [3,3],
-        tension: .4,
-        pointRadius: 3,
-        pointBackgroundColor: C.prevColor,
-        fill: false,
-        borderWidth: 1.5,
-        order: 3
+        label:`Realizado ${prevYear}`, data:prevData,
+        borderColor:C.prevColor, borderDash:[3,3], tension:.4,
+        pointRadius:3, pointBackgroundColor:C.prevColor,
+        fill:false, borderWidth:1.5, order:3
       });
     }
-
     CHARTS[key] = new Chart(ctx, {
-      type: 'line',
-      data: { labels: months.map(m=>m.slice(5)+'/'+m.slice(0,4)), datasets },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: { mode:'index', intersect:false },
-        plugins: {
-          legend: {
-            position: 'bottom',
-            labels: { boxWidth:10, boxHeight:2, font:{size:10,family:'Inter'}, color:'#64748b', padding:12 }
+      type:'line',
+      data:{ labels:months.map(m=>m.slice(5)+'/'+m.slice(0,4)), datasets },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        interaction:{ mode:'index', intersect:false },
+        plugins:{
+          legend:{ position:'bottom', labels:{ boxWidth:10, boxHeight:2, font:{size:10,family:'Inter'}, color:'#64748b', padding:12 } },
+          tooltip:{
+            backgroundColor:'rgba(15,25,35,.92)', titleColor:'#f0f4f8', bodyColor:'#a8b8c8',
+            padding:10, cornerRadius:6,
+            callbacks:{ label: c=>` ${c.dataset.label}: ${fmt(c.parsed.y)} ${yLabel}` }
           },
-          tooltip: {
-            backgroundColor: 'rgba(15,25,35,.92)',
-            titleColor: '#f0f4f8',
-            bodyColor: '#a8b8c8',
-            padding: 10,
-            cornerRadius: 6,
-            callbacks: { label: c=>` ${c.dataset.label}: ${fmt(c.parsed.y)} ${yLabel}` }
-          }
+          inlineLabels:{ decimals: decimals ?? 3 }
         },
-        scales: {
-          x: {
-            grid: { color:'rgba(0,0,0,.04)', drawBorder:false },
-            ticks: { font:{size:10,family:'Inter'}, color:'#94a3b8', maxRotation:0 }
-          },
-          y: {
-            grid: { color:'rgba(0,0,0,.04)', drawBorder:false },
-            ticks: { font:{size:10,family:'Inter'}, color:'#94a3b8' },
-            title: { display:true, text:yLabel, font:{size:9,family:'Inter'}, color:'#94a3b8' }
-          }
+        scales:{
+          x:{ grid:{color:'rgba(0,0,0,.04)',drawBorder:false}, ticks:{font:{size:10,family:'Inter'},color:'#94a3b8',maxRotation:0} },
+          y:{ grid:{color:'rgba(0,0,0,.04)',drawBorder:false}, ticks:{font:{size:10,family:'Inter'},color:'#94a3b8'},
+              title:{display:true,text:yLabel,font:{size:9,family:'Inter'},color:'#94a3b8'} }
         }
-      }
+      },
+      plugins:[inlineLabelsPlugin]
     });
   }));
 }
 
-/* ══════════════════════════════════════════
-   CHART TITLE BADGE
-══════════════════════════════════════════ */
 function updateChartTitleBadge(titleId, baseTitle, unidade) {
   const el = document.getElementById(titleId);
   if (!el) return;
   const badge = unidade
     ? `<span class="chart-filter-badge">📍 ${unidade}</span>`
     : `<span class="chart-filter-badge all">Todas as Unidades</span>`;
-  // O ::before é CSS, então o innerHTML fica após (inserimos o badge inline no texto)
   el.innerHTML = baseTitle + badge;
 }
 
-/* ══════════════════════════════════════════
-   GENERIC RENDER
-   updateChart: se true → redesenha gráfico usando CHART_DATA
-                se false → mantém gráfico atual, só atualiza painéis + tabela
-══════════════════════════════════════════ */
+/* ── RENDER GENÉRICO ── */
 function renderIndicator(cfg, updateChart) {
-  /* ── Painéis acumulados: usam FILTERED ── */
-  const d = FILTERED;
-  const { cur, prev } = getYears(d);
+  const d = FILTERED, cd = CHART_DATA;
+  const mul = cfg.isPercent ? 100 : 1;
 
-  const curRowsF  = d.filter(r=>getYear(r['Ano/Mês'])===cur);
-  const prevRowsF = d.filter(r=>getYear(r['Ano/Mês'])===prev);
+  const anoFiltro = document.getElementById('filter-anomes').value;
+  const anoTabela = anoFiltro ? anoFiltro.slice(0,4) : getYears(d).cur;
 
-  renderAcumPanel(`panel-cur-${cfg.key}`,  cur,  curRowsF,  cfg.valKey, cfg.metaKey, cfg.weightKey, '#42684D', true,  cfg.unitPrefix, cfg.unitSuffix);
-  renderAcumPanel(`panel-prev-${cfg.key}`, prev, prevRowsF, cfg.valKey, cfg.metaKey, cfg.weightKey, '#94a3b8', false, cfg.unitPrefix, cfg.unitSuffix);
+  /* Painel combinado (coluna única) */
+  renderCombinedPanel(
+    `panel-${cfg.key}`, cd,
+    cfg.numCol, cfg.denCol, cfg.refNumCol,
+    cfg.numColAnt, cfg.denColAnt, cfg.refNumColAnt,
+    cfg.prefix, cfg.suffix, cfg.isPercent, cfg.invertDiff,
+    cfg.refLabel || (cfg.invertDiff ? 'Meta' : 'Padrão')
+  );
 
-  /* ── Gráfico: usa CHART_DATA (só Unidade) ── */
+  /* Gráfico */
   if (updateChart) {
-    const cd = CHART_DATA;
-    const { cur: cCur, prev: cPrev } = getYears(cd);
-
-    const curRowsC  = cd.filter(r=>getYear(r['Ano/Mês'])===cCur);
-    const prevRowsC = cd.filter(r=>getYear(r['Ano/Mês'])===cPrev);
-
-    const months = getMonths(curRowsC);
-    const byMesCur  = groupByMes(curRowsC);
-    const byMesPrev = groupByMes(prevRowsC);
-
+    const months = getMonths(cd);
+    const byMes  = groupByMes(cd);
     const realData = months.map(m => {
-      const rows = byMesCur[m]||[];
-      return rows.length ? +wavg(rows,cfg.valKey,cfg.weightKey).toFixed(3) : null;
+      const rows=byMes[m]||[];
+      return rows.length ? parseFloat((ratio(rows,cfg.numCol,cfg.denCol)*mul).toFixed(4)) : null;
     });
-    const metaData = cfg.metaKey ? months.map(m => {
-      const rows = byMesCur[m]||[];
-      return rows.length ? +wavg(rows,cfg.metaKey,cfg.weightKey).toFixed(3) : null;
+    const refData = cfg.refNumCol ? months.map(m => {
+      const rows=byMes[m]||[];
+      return rows.length ? parseFloat((ratio(rows,cfg.refNumCol,cfg.denCol)*mul).toFixed(4)) : null;
     }) : [];
-    const prevData = months.map(m => {
-      const mm = m.slice(5);
-      const prevM = Object.keys(byMesPrev).find(k=>k.slice(5)===mm);
-      if (!prevM) return null;
-      const rows = byMesPrev[prevM]||[];
-      return rows.length ? +wavg(rows,cfg.valKey,cfg.weightKey).toFixed(3) : null;
-    });
-
-    buildProChart(`chart-${cfg.key}`, cfg.key, months, realData, metaData, prevData, cPrev, cCur, cfg.yLabel);
+    const prevData = cfg.numColAnt ? months.map(m => {
+      const rows=byMes[m]||[];
+      return rows.length ? parseFloat((ratio(rows,cfg.numColAnt,cfg.denColAnt)*mul).toFixed(4)) : null;
+    }) : [];
+    const { cur, prev } = getYears(cd);
+    buildProChart(`chart-${cfg.key}`, cfg.key, months, realData, refData, prevData, prev||'Ant', cur, cfg.yLabel, cfg.decimals);
   }
 
-  /* ── Badge no título do gráfico ── */
   updateChartTitleBadge(`title-${cfg.key}`, cfg.baseTitle, CHART_UNIDADE);
 
-  /* ── Tabela: usa FILTERED ── */
+  /* Tabela */
+  const tabelaRows = d.filter(r => getYear(r[COL.ANOMES]) === anoTabela);
   const thead = document.querySelector(`#table-${cfg.key} thead`);
-  const tbody = document.querySelector(`#table-${cfg.key} tbody`);
+  const tbody  = document.querySelector(`#table-${cfg.key} tbody`);
   thead.innerHTML = `<tr>${cfg.tableHead.map(h=>`<th>${h}</th>`).join('')}</tr>`;
-  tbody.innerHTML = d.map(r=>cfg.tableRow(r)).join('');
+  tbody.innerHTML  = tabelaRows.map(r=>cfg.tableRow(r)).join('');
 }
 
-/* ══════════════════════════════════════════
-   RENDER ALL
-   updateChart (boolean): se true redesenha gráficos
-══════════════════════════════════════════ */
-function renderAll(updateChart = true) {
+/* ── RENDER ALL ── */
+function renderAll(updateChart=true) {
   renderKPIs();
 
   renderIndicator({
-    key:'viabilidade',
-    baseTitle:'% Viabilidade — Lotes Fechados',
-    valKey:'%Viabilidade', metaKey:'Meta', weightKey:'Saldo Fmeas',
-    unitPrefix:'', unitSuffix:'%', yLabel:'%',
-    tableHead:['Ano/Mês','Unidade','Granja','Lote','Fêm. Aloj.','Saldo Fêm.','% Viabilidade','Meta %','Dif. Padrão'],
+    key:'viabilidade', baseTitle:'% Viabilidade — Realizado vs Padrão',
+    numCol:COL.F_VIAB, denCol:COL.E, refNumCol:COL.G,
+    numColAnt:COL.F_VIAB_ANT, denColAnt:COL.E_ANT, refNumColAnt:COL.G_ANT,
+    prefix:'', suffix:'%', yLabel:'%',
+    isPercent:true, invertDiff:false, decimals:2,
+    tableHead:['Ano/Mês','Unidade','Granja','Lote','% Viabilidade','% Padrão','Diferença'],
     tableRow: r => {
-      const dif=n(r['Dif. Pdr.']);
-      return `<tr>
-        <td>${r['Ano/Mês']}</td><td>${r['Unidade']||'—'}</td><td>${r['Granja']}</td><td>${r['Lote']}</td>
-        <td>${fmt(r['Femeas Aloj.'],0)}</td><td>${fmt(r['Saldo Fmeas'],0)}</td>
-        <td>${fmt(r['%Viabilidade'])}%</td><td>${fmt(r['Meta'])}%</td>
-        <td>${semBadge(dif)}</td></tr>`;
+      const e=n(r[COL.E]),f=n(r[COL.F_VIAB]),g=n(r[COL.G]);
+      const viab=e>0?(f/e)*100:0, padrao=e>0?(g/e)*100:0, dif=viab-padrao;
+      return `<tr><td>${r[COL.ANOMES]}</td><td>${r[COL.UNIDADE]||'—'}</td><td>${r[COL.GRANJA]}</td><td>${r[COL.LOTE]}</td>
+        <td>${fmt(viab)}%</td><td>${fmt(padrao)}%</td><td>${semBadge(dif,false)}</td></tr>`;
     }
   }, updateChart);
 
   renderIndicator({
-    key:'racao',
-    baseTitle:'KG Ração por Fêmea — Realizado vs Previsto',
-    valKey:'Ração femea', metaKey:'Ração Prev. femea', weightKey:'Saldo Fmeas',
-    unitPrefix:'', unitSuffix:' kg', yLabel:'kg/fêmea',
-    tableHead:['Ano/Mês','Unidade','Granja','Lote','Saldo Fêm.','Ração Total (kg)','Ração/Fêmea','Prev./Fêmea','Diferença'],
+    key:'racao', baseTitle:'KG Ração por Fêmea — Realizado vs Padrão',
+    numCol:COL.H, denCol:COL.F_VIAB, refNumCol:COL.I,
+    numColAnt:COL.H_ANT, denColAnt:COL.F_VIAB_ANT, refNumColAnt:COL.I_ANT,
+    prefix:'', suffix:' kg', yLabel:'kg/fêmea',
+    isPercent:false, invertDiff:true, decimals:3,
+    tableHead:['Ano/Mês','Unidade','Granja','Lote','Kg/Fêmea','Padrão kg/Fêmea','Diferença'],
     tableRow: r => {
-      const dif=n(r['Diferença Ração']);
-      return `<tr>
-        <td>${r['Ano/Mês']}</td><td>${r['Unidade']||'—'}</td><td>${r['Granja']}</td><td>${r['Lote']}</td>
-        <td>${fmt(r['Saldo Fmeas'],0)}</td><td>${fmt(r['Ração'],0)}</td>
-        <td>${fmt(r['Ração femea'],3)}</td><td>${fmt(r['Ração Prev. femea'],3)}</td>
-        <td>${semBadge(dif)}</td></tr>`;
+      const f=n(r[COL.F_VIAB]),h=n(r[COL.H]),i=n(r[COL.I]);
+      const real=f>0?h/f:0, padrao=f>0?i/f:0, dif=real-padrao;
+      return `<tr><td>${r[COL.ANOMES]}</td><td>${r[COL.UNIDADE]||'—'}</td><td>${r[COL.GRANJA]}</td><td>${r[COL.LOTE]}</td>
+        <td>${fmt(real,3)}</td><td>${fmt(padrao,3)}</td><td>${semBadge(dif,true)}</td></tr>`;
     }
   }, updateChart);
 
   renderIndicator({
-    key:'custo',
-    baseTitle:'R$/Fêmea Recriada — Realizado vs Meta',
-    valKey:'R$/Femea', metaKey:'Meta', weightKey:'Saldo Fmeas',
-    unitPrefix:'R$ ', unitSuffix:'', yLabel:'R$/fêmea',
-    tableHead:['Ano/Mês','Unidade','Granja','Lote','Saldo Fêm.','R$ Total','R$/Fêmea','Meta','Dif. Meta'],
+    key:'custo', baseTitle:'R$/Fêmea Recriada — Realizado vs Meta',
+    numCol:COL.J, denCol:COL.F_CUSTO, refNumCol:COL.K,
+    numColAnt:COL.J_ANT, denColAnt:COL.F_CUSTO_ANT, refNumColAnt:COL.K_ANT,
+    prefix:'R$ ', suffix:'', yLabel:'R$/fêmea',
+    isPercent:false, invertDiff:true, decimals:3,
+    tableHead:['Ano/Mês','Unidade','Granja','Lote','R$/Fêmea','Meta R$/Fêmea','Dif. Meta'],
     tableRow: r => {
-      const dif=-(n(r['R$/Femea'])-n(r['Meta']));
-      return `<tr>
-        <td>${r['Ano/Mês']}</td><td>${r['Unidade']||'—'}</td><td>${r['Granja']}</td><td>${r['Lote']}</td>
-        <td>${fmt(r['Saldo Fmeas'],0)}</td>
-        <td>R$ ${fmt(r['R$ Total'],2)}</td>
-        <td>R$ ${fmt(r['R$/Femea'],2)}</td>
-        <td>R$ ${fmt(r['Meta'],2)}</td>
-        <td>${semBadge(dif)}</td></tr>`;
+      const f=n(r[COL.F_CUSTO]),j=n(r[COL.J]),k=n(r[COL.K]);
+      const real=f>0?j/f:0, meta=f>0?k/f:0, dif=real-meta;
+      return `<tr><td>${r[COL.ANOMES]}</td><td>${r[COL.UNIDADE]||'—'}</td><td>${r[COL.GRANJA]}</td><td>${r[COL.LOTE]}</td>
+        <td>R$ ${fmt(real,2)}</td><td>R$ ${fmt(meta,2)}</td><td>${semBadge(dif,true)}</td></tr>`;
     }
   }, updateChart);
 
   renderIndicator({
-    key:'custosm',
-    baseTitle:'R$/Fêmea Sem Matriz e Ração — Realizado vs Meta',
-    valKey:'R$/Femea Sem Matriz/Racao', metaKey:'Meta Sem Matriz/Racao', weightKey:'Saldo Fmeas',
-    unitPrefix:'R$ ', unitSuffix:'', yLabel:'R$/fêmea',
-    tableHead:['Ano/Mês','Unidade','Granja','Lote','Saldo Fêm.','R$ Total S/M&R','R$/Fêmea S/M&R','Meta S/M&R','Dif. Meta'],
+    key:'custosm', baseTitle:'R$/Fêmea Sem Matriz e Ração — Realizado vs Meta',
+    numCol:COL.L, denCol:COL.F_CUSTO, refNumCol:COL.M,
+    numColAnt:COL.L_ANT, denColAnt:COL.F_CUSTO_ANT, refNumColAnt:COL.M_ANT,
+    prefix:'R$ ', suffix:'', yLabel:'R$/fêmea',
+    isPercent:false, invertDiff:true, decimals:3,
+    tableHead:['Ano/Mês','Unidade','Granja','Lote','R$/Fêmea S/M&R','Meta R$/Fêmea S/M&R','Dif. Meta'],
     tableRow: r => {
-      const dif=-(n(r['R$/Femea Sem Matriz/Racao'])-n(r['Meta Sem Matriz/Racao']));
-      return `<tr>
-        <td>${r['Ano/Mês']}</td><td>${r['Unidade']||'—'}</td><td>${r['Granja']}</td><td>${r['Lote']}</td>
-        <td>${fmt(r['Saldo Fmeas'],0)}</td>
-        <td>R$ ${fmt(r['R$ Total Sem Matriz/Racao'],2)}</td>
-        <td>R$ ${fmt(r['R$/Femea Sem Matriz/Racao'],2)}</td>
-        <td>R$ ${fmt(r['Meta Sem Matriz/Racao'],2)}</td>
-        <td>${semBadge(dif)}</td></tr>`;
+      const f=n(r[COL.F_CUSTO]),l=n(r[COL.L]),m=n(r[COL.M]);
+      const real=f>0?l/f:0, meta=f>0?m/f:0, dif=real-meta;
+      return `<tr><td>${r[COL.ANOMES]}</td><td>${r[COL.UNIDADE]||'—'}</td><td>${r[COL.GRANJA]}</td><td>${r[COL.LOTE]}</td>
+        <td>R$ ${fmt(real,2)}</td><td>R$ ${fmt(meta,2)}</td><td>${semBadge(dif,true)}</td></tr>`;
     }
   }, updateChart);
 }
 
-/* ══════════════════════════════════════════
-   RESET
-══════════════════════════════════════════ */
+/* ── RESET ── */
 function resetDashboard() {
   Object.keys(CHARTS).forEach(k=>{ CHARTS[k].destroy(); delete CHARTS[k]; });
   RAW_DATA=[]; FILTERED=[]; CHART_DATA=[]; CHART_UNIDADE='';
