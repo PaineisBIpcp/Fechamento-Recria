@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>GMI RECRIA — Dashboard</title>
-<link rel="icon" type="image/png" href="Pluma-logomarca.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -88,16 +87,27 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
 
 /* FILTER BAR */
 .filter-bar{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:1rem 1.25rem;display:flex;align-items:flex-end;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem;}
-.filter-group{display:flex;flex-direction:column;gap:.35rem;min-width:150px;}
+.filter-group{display:flex;flex-direction:column;gap:.35rem;min-width:150px;position:relative;}
 .filter-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);}
-.filter-select{padding:.5rem .75rem;border:1px solid var(--border);border-radius:6px;font-size:.82rem;font-family:'Inter',sans-serif;color:var(--text-1);background:#f8fafc;cursor:pointer;transition:border-color .15s;outline:none;min-width:150px;}
-.filter-select:focus{border-color:var(--verde-forte);}
-#filter-unidade{border-color:var(--verde-forte);background:rgba(1,67,51,.04);}
-#filter-unidade:focus{border-color:var(--amarelo-forte);}
 .filter-btn{padding:.5rem 1.1rem;background:var(--verde-forte);color:#fff;border:none;border-radius:6px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s;white-space:nowrap;}
 .filter-btn:hover{background:#025f47;}
 .filter-btn.secondary{background:transparent;color:var(--text-2);border:1px solid var(--border);}
 .filter-btn.secondary:hover{background:#f1f5f9;}
+/* multiselect dropdown */
+.ms-trigger{display:flex;align-items:center;justify-content:space-between;gap:.4rem;padding:.5rem .75rem;border:1px solid var(--border);border-radius:6px;font-size:.82rem;font-family:'Inter',sans-serif;color:var(--text-1);background:#f8fafc;cursor:pointer;min-width:150px;user-select:none;transition:border-color .15s;}
+.ms-trigger:hover{border-color:var(--verde-forte);}
+.ms-trigger.active{border-color:var(--verde-forte);background:rgba(1,67,51,.04);}
+.ms-trigger-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ms-trigger-arrow{font-size:.55rem;color:var(--text-3);flex-shrink:0;transition:transform .15s;}
+.ms-trigger.open .ms-trigger-arrow{transform:rotate(180deg);}
+.ms-badge{display:inline-flex;align-items:center;justify-content:center;background:var(--verde-forte);color:#fff;border-radius:10px;font-size:.6rem;font-weight:700;padding:.05rem .35rem;margin-left:.3rem;flex-shrink:0;}
+.ms-dropdown{display:none;position:absolute;top:calc(100% + 4px);left:0;min-width:100%;max-height:220px;overflow-y:auto;background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.1);z-index:200;}
+.ms-dropdown.open{display:block;}
+.ms-search{padding:.5rem .75rem;border:none;border-bottom:1px solid var(--border);font-size:.8rem;font-family:'Inter',sans-serif;width:100%;outline:none;color:var(--text-1);background:#f8fafc;}
+.ms-option{display:flex;align-items:center;gap:.5rem;padding:.4rem .75rem;font-size:.8rem;font-family:'Inter',sans-serif;color:var(--text-1);cursor:pointer;transition:background .1s;}
+.ms-option:hover{background:#f0f4f2;}
+.ms-option input[type=checkbox]{accent-color:var(--verde-forte);width:13px;height:13px;cursor:pointer;flex-shrink:0;}
+.ms-option.all-opt{border-bottom:1px solid var(--border);font-weight:600;color:var(--text-2);}
 
 /* KPI ROW */
 .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.25rem;}
@@ -303,6 +313,7 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
 .export-pdf-btn:disabled{background:#9db5ae;cursor:not-allowed;}
 .export-pdf-btn svg{width:13px;height:13px;flex-shrink:0;}
 .export-capture{background:#ffffff;}
+.page-footer{position:fixed;bottom:.75rem;right:1rem;font-size:.6rem;color:var(--text-3);font-family:'Inter',sans-serif;letter-spacing:.04em;pointer-events:none;z-index:50;}
 </style>
 </head>
 <body>
@@ -358,19 +369,43 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
     </div>
     <div class="sidebar-section-label">Indicadores</div>
     <a class="nav-item active" data-page="viabilidade" onclick="setPage('viabilidade',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="10" cy="14" rx="5" ry="4"/>
+        <path d="M15 13 Q19 11 18 7 Q16 8 15 10"/>
+        <circle cx="17.5" cy="5.5" r="1.5"/>
+        <path d="M7 18 L6.5 21 M10 18.5 L10 21 M13 18 L13.5 21"/>
+        <path d="M5.5 11 Q3.5 10 4 8 Q5 9 6 10"/>
+      </svg>
       Viabilidade de Recria
     </a>
     <a class="nav-item" data-page="racao" onclick="setPage('racao',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="5" y="8" width="14" height="11" rx="2"/>
+        <path d="M8 8 Q9 4 12 4 Q15 4 16 8"/>
+        <path d="M9 12.5 Q12 11.5 15 12.5"/>
+        <path d="M9 15.5 Q12 14.5 15 15.5"/>
+        <circle cx="12" cy="8.5" r="0.8" fill="currentColor"/>
+      </svg>
       Ração / Fêmea
     </a>
     <a class="nav-item" data-page="custo" onclick="setPage('custo',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="13" r="6"/>
+        <path d="M12 9.5 L12 16.5"/>
+        <path d="M9.5 11.2 Q12 10 14.5 11.2 Q14.5 13 12 13 Q14.5 13 14.5 14.8 Q12 16 9.5 14.8"/>
+        <path d="M9.5 5.5 Q12 3.5 14.5 5.5"/>
+        <line x1="12" y1="3.5" x2="12" y2="7"/>
+      </svg>
       Custo Franga Recriada
     </a>
     <a class="nav-item" data-page="custosm" onclick="setPage('custosm',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="13" r="6"/>
+        <path d="M12 9.5 L12 16.5"/>
+        <path d="M9.5 11.2 Q12 10 14.5 11.2 Q14.5 13 12 13 Q14.5 13 14.5 14.8 Q12 16 9.5 14.8"/>
+        <path d="M9.5 5.5 Q12 3.5 14.5 5.5"/>
+        <line x1="12" y1="3.5" x2="12" y2="7"/>
+      </svg>
       Custo S/ Matriz e Ração
     </a>
     <div class="sidebar-footer">arquivo: <span id="sidebar-filename">—</span></div>
@@ -383,21 +418,53 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
     </div>
 
     <div class="filter-bar">
-      <div class="filter-group">
+      <div class="filter-group" id="fg-anomes">
         <label class="filter-label">Ano / Mês</label>
-        <select class="filter-select" id="filter-anomes" onchange="applyFilters()"><option value="">Todos</option></select>
+        <div class="ms-trigger" id="ms-anomes" onclick="toggleDropdown('anomes')">
+          <span class="ms-trigger-text" id="ms-anomes-txt">Todos</span>
+          <span class="ms-trigger-arrow">▼</span>
+        </div>
+        <div class="ms-dropdown" id="dd-anomes">
+          <input class="ms-search" type="text" placeholder="Buscar…" oninput="filterOpts('anomes',this.value)">
+          <div class="ms-option all-opt" onclick="toggleAll('anomes')"><input type="checkbox" id="chk-anomes-all" checked> Todos</div>
+          <div id="opts-anomes"></div>
+        </div>
       </div>
-      <div class="filter-group">
+      <div class="filter-group" id="fg-unidade">
         <label class="filter-label">Unidade</label>
-        <select class="filter-select" id="filter-unidade" onchange="applyFilters()"><option value="">Todas</option></select>
+        <div class="ms-trigger" id="ms-unidade" onclick="toggleDropdown('unidade')">
+          <span class="ms-trigger-text" id="ms-unidade-txt">Todas</span>
+          <span class="ms-trigger-arrow">▼</span>
+        </div>
+        <div class="ms-dropdown" id="dd-unidade">
+          <input class="ms-search" type="text" placeholder="Buscar…" oninput="filterOpts('unidade',this.value)">
+          <div class="ms-option all-opt" onclick="toggleAll('unidade')"><input type="checkbox" id="chk-unidade-all" checked> Todas</div>
+          <div id="opts-unidade"></div>
+        </div>
       </div>
-      <div class="filter-group">
+      <div class="filter-group" id="fg-granja">
         <label class="filter-label">Granja</label>
-        <select class="filter-select" id="filter-granja" onchange="applyFilters()"><option value="">Todas</option></select>
+        <div class="ms-trigger" id="ms-granja" onclick="toggleDropdown('granja')">
+          <span class="ms-trigger-text" id="ms-granja-txt">Todas</span>
+          <span class="ms-trigger-arrow">▼</span>
+        </div>
+        <div class="ms-dropdown" id="dd-granja">
+          <input class="ms-search" type="text" placeholder="Buscar…" oninput="filterOpts('granja',this.value)">
+          <div class="ms-option all-opt" onclick="toggleAll('granja')"><input type="checkbox" id="chk-granja-all" checked> Todas</div>
+          <div id="opts-granja"></div>
+        </div>
       </div>
-      <div class="filter-group">
+      <div class="filter-group" id="fg-lote">
         <label class="filter-label">Lote</label>
-        <select class="filter-select" id="filter-lote" onchange="applyFilters()"><option value="">Todos</option></select>
+        <div class="ms-trigger" id="ms-lote" onclick="toggleDropdown('lote')">
+          <span class="ms-trigger-text" id="ms-lote-txt">Todos</span>
+          <span class="ms-trigger-arrow">▼</span>
+        </div>
+        <div class="ms-dropdown" id="dd-lote">
+          <input class="ms-search" type="text" placeholder="Buscar…" oninput="filterOpts('lote',this.value)">
+          <div class="ms-option all-opt" onclick="toggleAll('lote')"><input type="checkbox" id="chk-lote-all" checked> Todos</div>
+          <div id="opts-lote"></div>
+        </div>
       </div>
       <button class="filter-btn secondary" onclick="clearFilters()">Limpar</button>
     </div>
@@ -493,6 +560,7 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
     </div>
   </div>
 </div>
+<div class="page-footer">by Eduardo &amp; Antonio</div>
 
 <script>
 const COL = {
@@ -591,6 +659,16 @@ function parseData(rows) {
       [COL.UNIDADE]: unidade || lastUnidade
     };
   });
+  /* ── VALIDAÇÃO DE COLUNAS OBRIGATÓRIAS ── */
+  const colsObrigatorias = Object.values(COL);
+  const keysPresentes = norm.length > 0 ? Object.keys(norm[0]) : [];
+  const faltando = colsObrigatorias.filter(col => !keysPresentes.includes(col));
+  if (faltando.length > 0) {
+    document.getElementById('loading').classList.remove('visible');
+    errorEl.textContent = 'Colunas ausentes na planilha: ' + faltando.join(', ');
+    errorEl.classList.add('visible'); return;
+  }
+
   RAW_DATA = filled.filter(r => {
     const a = (r[COL.ANOMES]||'').toLowerCase();
     return a && a!=='total' && a!=='ano/mês' && r[COL.LOTE];
@@ -641,41 +719,121 @@ function semBadge(diff, invertLogic) {
 }
 
 /* ── FILTERS ── */
+/* ── MULTISELECT STATE ── */
+const MS = { anomes: new Set(), unidade: new Set(), granja: new Set(), lote: new Set() };
+const MS_VALS = { anomes: [], unidade: [], granja: [], lote: [] };
+
 function populateFilters() {
-  fillSel('filter-anomes',  [...new Set(RAW_DATA.map(r=>r[COL.ANOMES]).filter(Boolean))].sort());
-  fillSel('filter-unidade', [...new Set(RAW_DATA.map(r=>r[COL.UNIDADE]).filter(Boolean))].sort());
-  fillSel('filter-granja',  [...new Set(RAW_DATA.map(r=>r[COL.GRANJA]).filter(Boolean))].sort());
-  fillSel('filter-lote',    [...new Set(RAW_DATA.map(r=>(r[COL.LOTE]||'').toString()).filter(Boolean))].sort());
-}
-function fillSel(id, vals) {
-  const s=document.getElementById(id), cur=s.value;
-  s.innerHTML='<option value="">Todos</option>';
-  vals.forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; s.appendChild(o); });
-  s.value=cur;
+  MS_VALS.anomes  = [...new Set(RAW_DATA.map(r=>r[COL.ANOMES]).filter(Boolean))].sort();
+  MS_VALS.unidade = [...new Set(RAW_DATA.map(r=>r[COL.UNIDADE]).filter(Boolean))].sort();
+  MS_VALS.granja  = [...new Set(RAW_DATA.map(r=>r[COL.GRANJA]).filter(Boolean))].sort();
+  MS_VALS.lote    = [...new Set(RAW_DATA.map(r=>(r[COL.LOTE]||'').toString()).filter(Boolean))].sort();
+  ['anomes','unidade','granja','lote'].forEach(k => {
+    MS[k] = new Set(MS_VALS[k]);
+    buildOpts(k);
+    updateTrigger(k);
+  });
 }
 
+function buildOpts(key, search='') {
+  const container = document.getElementById('opts-'+key);
+  const vals = MS_VALS[key].filter(v => !search || v.toLowerCase().includes(search.toLowerCase()));
+  container.innerHTML = vals.map(v => `
+    <div class="ms-option" onclick="toggleOpt('${key}','${v.replace(/'/g,"\'")}')">
+      <input type="checkbox" ${MS[key].has(v)?'checked':''} onclick="event.stopPropagation();toggleOpt('${key}','${v.replace(/'/g,"\'")}')">
+      ${v}
+    </div>`).join('');
+  const allChk = document.getElementById('chk-'+key+'-all');
+  if (allChk) allChk.checked = MS[key].size === MS_VALS[key].length;
+}
+
+function filterOpts(key, search) { buildOpts(key, search); }
+
+function toggleOpt(key, val) {
+  if (MS[key].has(val)) MS[key].delete(val); else MS[key].add(val);
+  buildOpts(key, document.querySelector('#dd-'+key+' .ms-search')?.value||'');
+  updateTrigger(key);
+  applyFilters();
+}
+
+function toggleAll(key) {
+  const allChk = document.getElementById('chk-'+key+'-all');
+  if (MS[key].size === MS_VALS[key].length) { MS[key].clear(); if(allChk) allChk.checked=false; }
+  else { MS[key] = new Set(MS_VALS[key]); if(allChk) allChk.checked=true; }
+  buildOpts(key, document.querySelector('#dd-'+key+' .ms-search')?.value||'');
+  updateTrigger(key);
+  applyFilters();
+}
+
+function updateTrigger(key) {
+  const txt = document.getElementById('ms-'+key+'-txt');
+  const trigger = document.getElementById('ms-'+key);
+  if (!txt) return;
+  const total = MS_VALS[key].length;
+  const sel = MS[key].size;
+  const labels = { anomes:'Todos', unidade:'Todas', granja:'Todas', lote:'Todos' };
+  if (sel === 0) {
+    txt.innerHTML = '<span style="color:var(--text-3)">Nenhum</span>';
+    trigger.classList.add('active');
+  } else if (sel === total) {
+    txt.textContent = labels[key];
+    trigger.classList.remove('active');
+  } else if (sel === 1) {
+    txt.textContent = [...MS[key]][0];
+    trigger.classList.add('active');
+  } else {
+    txt.innerHTML = labels[key] + ` <span class="ms-badge">${sel}</span>`;
+    trigger.classList.add('active');
+  }
+}
+
+function toggleDropdown(key) {
+  const dd = document.getElementById('dd-'+key);
+  const trigger = document.getElementById('ms-'+key);
+  const isOpen = dd.classList.contains('open');
+  document.querySelectorAll('.ms-dropdown.open').forEach(d=>d.classList.remove('open'));
+  document.querySelectorAll('.ms-trigger.open').forEach(t=>t.classList.remove('open'));
+  if (!isOpen) { dd.classList.add('open'); trigger.classList.add('open'); }
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.filter-group')) {
+    document.querySelectorAll('.ms-dropdown.open').forEach(d=>d.classList.remove('open'));
+    document.querySelectorAll('.ms-trigger.open').forEach(t=>t.classList.remove('open'));
+  }
+});
+
 function applyFilters() {
-  const ano     = document.getElementById('filter-anomes').value;
-  const unidade = document.getElementById('filter-unidade').value;
-  const granja  = document.getElementById('filter-granja').value;
-  const lote    = document.getElementById('filter-lote').value;
+  const anos     = MS.anomes;
+  const unidades = MS.unidade;
+  const granjas  = MS.granja;
+  const lotes    = MS.lote;
   FILTERED = RAW_DATA.filter(r => {
-    if (ano     && r[COL.ANOMES]               !== ano)    return false;
-    if (unidade && r[COL.UNIDADE]              !== unidade) return false;
-    if (granja  && r[COL.GRANJA]               !== granja)  return false;
-    if (lote    && (r[COL.LOTE]||'').toString() !== lote)  return false;
+    if (anos.size     < MS_VALS.anomes.length  && !anos.has(r[COL.ANOMES]))                     return false;
+    if (unidades.size < MS_VALS.unidade.length && !unidades.has(r[COL.UNIDADE]))                 return false;
+    if (granjas.size  < MS_VALS.granja.length  && !granjas.has(r[COL.GRANJA]))                   return false;
+    if (lotes.size    < MS_VALS.lote.length    && !lotes.has((r[COL.LOTE]||'').toString()))      return false;
     return true;
   });
-  const unidadeChanged = unidade !== CHART_UNIDADE;
+  const novaUnidade = unidades.size === MS_VALS.unidade.length ? '' : [...unidades].join(',');
+  const unidadeChanged = novaUnidade !== CHART_UNIDADE;
   if (unidadeChanged) {
-    CHART_UNIDADE = unidade;
-    CHART_DATA = unidade ? RAW_DATA.filter(r=>r[COL.UNIDADE]===unidade) : [...RAW_DATA];
+    CHART_UNIDADE = novaUnidade;
+    CHART_DATA = unidades.size < MS_VALS.unidade.length
+      ? RAW_DATA.filter(r => unidades.has(r[COL.UNIDADE]))
+      : [...RAW_DATA];
   }
   renderAll(unidadeChanged);
 }
 
 function clearFilters() {
-  ['filter-anomes','filter-unidade','filter-granja','filter-lote'].forEach(id=>document.getElementById(id).value='');
+  ['anomes','unidade','granja','lote'].forEach(k => {
+    MS[k] = new Set(MS_VALS[k]);
+    buildOpts(k);
+    updateTrigger(k);
+    const s = document.querySelector('#dd-'+k+' .ms-search');
+    if (s) s.value = '';
+  });
   FILTERED=[...RAW_DATA]; CHART_DATA=[...RAW_DATA]; CHART_UNIDADE='';
   renderAll(true);
 }
@@ -977,7 +1135,7 @@ function renderIndicator(cfg, updateChart) {
   const d = FILTERED, cd = CHART_DATA;
   const mul = cfg.isPercent ? 100 : 1;
 
-  const anoFiltro = document.getElementById('filter-anomes').value;
+  const anoFiltro = (MS.anomes.size === 1) ? [...MS.anomes][0] : '';
   const anoTabela = anoFiltro ? anoFiltro.slice(0,4) : getYears(d).cur;
 
   renderCombinedPanel(
