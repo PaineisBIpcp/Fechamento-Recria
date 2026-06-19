@@ -7,6 +7,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root {
   --verde-forte:   rgb(1,67,51);
@@ -284,6 +286,31 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
 .spinner{width:40px;height:40px;border:3px solid #e2e8f0;border-top-color:var(--verde-forte);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .loading-text{font-size:.875rem;font-weight:600;color:var(--verde-forte);}
+
+/* EXPORT PDF BUTTON */
+.export-pdf-btn{
+  margin-left:auto;
+  display:inline-flex;
+  align-items:center;
+  gap:.4rem;
+  font-size:.68rem;
+  font-weight:700;
+  color:#fff;
+  background:var(--verde-forte);
+  border:none;
+  border-radius:6px;
+  padding:.4rem .8rem;
+  cursor:pointer;
+  font-family:'Inter',sans-serif;
+  letter-spacing:.02em;
+  text-transform:none;
+  transition:background .15s;
+  flex-shrink:0;
+}
+.export-pdf-btn:hover{background:#025f47;}
+.export-pdf-btn:disabled{background:#9db5ae;cursor:not-allowed;}
+.export-pdf-btn svg{width:13px;height:13px;flex-shrink:0;}
+.export-capture{background:#ffffff;}
 </style>
 </head>
 <body>
@@ -388,12 +415,20 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
     <div id="page-viabilidade" class="nav-page active">
       <div class="section-hdr"><div class="section-hdr-bar"></div><div class="section-hdr-title">Viabilidade de Recria</div></div>
       <div class="chart-block">
-        <div class="chart-block-title" id="title-viabilidade">% Viabilidade — Realizado vs Padrão</div>
-        <div class="chart-pro-wrap" id="pro-viabilidade">
-          <div class="acum-panel-combined" id="panel-viabilidade"></div>
-          <div class="chart-line-panel"><div class="chart-line-inner"><canvas id="chart-viabilidade"></canvas></div></div>
+        <div class="chart-block-title" id="title-viabilidade">
+          % Viabilidade — Realizado vs Padrão
+          <button class="export-pdf-btn" id="export-btn-viabilidade" onclick="exportToPDF('viabilidade')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Exportar PDF
+          </button>
         </div>
-        <div class="summary-wrap" id="summary-viabilidade"></div>
+        <div class="export-capture" id="capture-viabilidade">
+          <div class="chart-pro-wrap" id="pro-viabilidade">
+            <div class="acum-panel-combined" id="panel-viabilidade"></div>
+            <div class="chart-line-panel"><div class="chart-line-inner"><canvas id="chart-viabilidade"></canvas></div></div>
+          </div>
+          <div class="summary-wrap" id="summary-viabilidade"></div>
+        </div>
         <div class="data-table-wrap"><table class="data-table" id="table-viabilidade"><thead></thead><tbody></tbody></table></div>
       </div>
     </div>
@@ -402,12 +437,20 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
     <div id="page-racao" class="nav-page">
       <div class="section-hdr"><div class="section-hdr-bar"></div><div class="section-hdr-title">Ração / Fêmea</div></div>
       <div class="chart-block">
-        <div class="chart-block-title" id="title-racao">KG Ração por Fêmea — Realizado vs Padrão</div>
-        <div class="chart-pro-wrap" id="pro-racao">
-          <div class="acum-panel-combined" id="panel-racao"></div>
-          <div class="chart-line-panel"><div class="chart-line-inner"><canvas id="chart-racao"></canvas></div></div>
+        <div class="chart-block-title" id="title-racao">
+          KG Ração por Fêmea — Realizado vs Padrão
+          <button class="export-pdf-btn" id="export-btn-racao" onclick="exportToPDF('racao')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Exportar PDF
+          </button>
         </div>
-        <div class="summary-wrap" id="summary-racao"></div>
+        <div class="export-capture" id="capture-racao">
+          <div class="chart-pro-wrap" id="pro-racao">
+            <div class="acum-panel-combined" id="panel-racao"></div>
+            <div class="chart-line-panel"><div class="chart-line-inner"><canvas id="chart-racao"></canvas></div></div>
+          </div>
+          <div class="summary-wrap" id="summary-racao"></div>
+        </div>
         <div class="data-table-wrap"><table class="data-table" id="table-racao"><thead></thead><tbody></tbody></table></div>
       </div>
     </div>
@@ -416,12 +459,20 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
     <div id="page-custo" class="nav-page">
       <div class="section-hdr"><div class="section-hdr-bar"></div><div class="section-hdr-title">Custo Franga Recriada</div></div>
       <div class="chart-block">
-        <div class="chart-block-title" id="title-custo">R$/Fêmea Recriada — Realizado vs Meta</div>
-        <div class="chart-pro-wrap" id="pro-custo">
-          <div class="acum-panel-combined" id="panel-custo"></div>
-          <div class="chart-line-panel"><div class="chart-line-inner"><canvas id="chart-custo"></canvas></div></div>
+        <div class="chart-block-title" id="title-custo">
+          R$/Fêmea Recriada — Realizado vs Meta
+          <button class="export-pdf-btn" id="export-btn-custo" onclick="exportToPDF('custo')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Exportar PDF
+          </button>
         </div>
-        <div class="summary-wrap" id="summary-custo"></div>
+        <div class="export-capture" id="capture-custo">
+          <div class="chart-pro-wrap" id="pro-custo">
+            <div class="acum-panel-combined" id="panel-custo"></div>
+            <div class="chart-line-panel"><div class="chart-line-inner"><canvas id="chart-custo"></canvas></div></div>
+          </div>
+          <div class="summary-wrap" id="summary-custo"></div>
+        </div>
         <div class="data-table-wrap"><table class="data-table" id="table-custo"><thead></thead><tbody></tbody></table></div>
       </div>
     </div>
@@ -430,12 +481,20 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
     <div id="page-custosm" class="nav-page">
       <div class="section-hdr"><div class="section-hdr-bar"></div><div class="section-hdr-title">Custo Franga — Sem Matriz e Ração</div></div>
       <div class="chart-block">
-        <div class="chart-block-title" id="title-custosm">R$/Fêmea Sem Matriz e Ração — Realizado vs Meta</div>
-        <div class="chart-pro-wrap" id="pro-custosm">
-          <div class="acum-panel-combined" id="panel-custosm"></div>
-          <div class="chart-line-panel"><div class="chart-line-inner"><canvas id="chart-custosm"></canvas></div></div>
+        <div class="chart-block-title" id="title-custosm">
+          R$/Fêmea Sem Matriz e Ração — Realizado vs Meta
+          <button class="export-pdf-btn" id="export-btn-custosm" onclick="exportToPDF('custosm')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Exportar PDF
+          </button>
         </div>
-        <div class="summary-wrap" id="summary-custosm"></div>
+        <div class="export-capture" id="capture-custosm">
+          <div class="chart-pro-wrap" id="pro-custosm">
+            <div class="acum-panel-combined" id="panel-custosm"></div>
+            <div class="chart-line-panel"><div class="chart-line-inner"><canvas id="chart-custosm"></canvas></div></div>
+          </div>
+          <div class="summary-wrap" id="summary-custosm"></div>
+        </div>
         <div class="data-table-wrap"><table class="data-table" id="table-custosm"><thead></thead><tbody></tbody></table></div>
       </div>
     </div>
@@ -901,7 +960,37 @@ function updateChartTitleBadge(titleId, baseTitle, unidade) {
   const badge = unidade
     ? `<span class="chart-filter-badge">📍 ${unidade}</span>`
     : `<span class="chart-filter-badge all">Todas as Unidades</span>`;
+  const btn = document.getElementById(`export-btn-${titleId.replace('title-','')}`);
   el.innerHTML = baseTitle + badge;
+  if (btn) el.appendChild(btn);
+}
+
+/* ── EXPORTAR PDF ── */
+async function exportToPDF(key) {
+  const captureEl = document.getElementById(`capture-${key}`);
+  const btn = document.getElementById(`export-btn-${key}`);
+  if (!captureEl) return;
+  const originalBtnHtml = btn ? btn.innerHTML : '';
+  if (btn) { btn.disabled = true; btn.innerHTML = 'Gerando PDF…'; }
+  try {
+    const canvas = await html2canvas(captureEl, {
+      scale: 2,
+      backgroundColor: '#ffffff',
+      useCORS: true,
+      logging: false
+    });
+    const imgData = canvas.toDataURL('image/png');
+    const { jsPDF } = window.jspdf;
+    const orientation = canvas.width >= canvas.height ? 'landscape' : 'portrait';
+    const pdf = new jsPDF({ orientation, unit: 'px', format: [canvas.width, canvas.height] });
+    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+    const blobUrl = pdf.output('bloburl');
+    window.open(blobUrl, '_blank');
+  } catch (err) {
+    alert('Erro ao gerar PDF: ' + err.message);
+  } finally {
+    if (btn) { btn.disabled = false; btn.innerHTML = originalBtnHtml; }
+  }
 }
 
 /* ── RENDER GENÉRICO ── */
