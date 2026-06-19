@@ -93,7 +93,6 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
 .filter-select:focus{border-color:var(--verde-forte);}
 #filter-unidade{border-color:var(--verde-forte);background:rgba(1,67,51,.04);}
 #filter-unidade:focus{border-color:var(--amarelo-forte);}
-.filter-unidade-wrap .filter-label::after{content:' ↳ gráfico';font-size:.55rem;font-weight:700;color:var(--amarelo-forte);margin-left:.3rem;letter-spacing:.04em;}
 .filter-btn{padding:.5rem 1.1rem;background:var(--verde-forte);color:#fff;border:none;border-radius:6px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s;white-space:nowrap;}
 .filter-btn:hover{background:#025f47;}
 .filter-btn.secondary{background:transparent;color:var(--text-2);border:1px solid var(--border);}
@@ -106,10 +105,6 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
 .kpi-val{font-size:1.55rem;font-weight:800;line-height:1;margin-bottom:.3rem;}
 .kpi-sub{font-size:.72rem;color:var(--text-2);}
 
-/* CHART FILTER BADGE */
-.chart-filter-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(1,67,51,.07);border:1px solid rgba(1,67,51,.18);border-radius:20px;padding:.2rem .65rem;font-size:.65rem;font-weight:700;color:var(--verde-forte);margin-left:.5rem;}
-.chart-filter-badge.all{background:rgba(148,163,184,.1);border-color:rgba(148,163,184,.25);color:var(--text-3);}
-
 /* SECTION HDR */
 .section-hdr{display:flex;align-items:center;gap:.6rem;margin-bottom:1.1rem;}
 .section-hdr-bar{width:4px;height:20px;background:var(--amarelo-forte);border-radius:2px;}
@@ -120,13 +115,13 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
 .chart-block-title{font-size:.72rem;font-weight:700;color:var(--verde-forte);text-transform:uppercase;letter-spacing:.07em;margin-bottom:1.1rem;padding-bottom:.7rem;border-bottom:2px solid #eef2f0;display:flex;align-items:center;gap:.6rem;flex-shrink:0;}
 .chart-block-title::before{content:'';display:inline-block;width:8px;height:8px;background:var(--amarelo-forte);border-radius:2px;flex-shrink:0;}
 
-/* ── CHART PRO WRAP: painel único à esquerda + gráfico ── */
+/* ── CHART PRO WRAP ── */
 .chart-pro-wrap{
   display:flex;
   flex-direction:row;
   gap:0;
   flex:1;
-  min-height:450px;
+  height:360px;
   align-items:stretch;
   border:1px solid #eef2f0;
   border-radius:8px;
@@ -134,7 +129,7 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
   margin-bottom:1.25rem;
 }
 
-/* ── PAINEL ÚNICO: cur em cima, prev embaixo ── */
+/* ── PAINEL ÚNICO ── */
 .acum-panel-combined{
   display:flex;
   flex-direction:column;
@@ -144,7 +139,6 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
   border-right:1px solid #eef2f0;
 }
 
-/* Bloco ANO ATUAL */
 .acum-cur{
   padding:.85rem .8rem 1rem;
   border-bottom:1px solid #eef2f0;
@@ -191,7 +185,6 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
 .acum-badge-down{background:rgba(220,38,38,.1);color:#DC2626;}
 .acum-badge-warn{background:rgba(245,158,11,.12);color:rgb(180,110,0);}
 
-/* Bloco ANO ANTERIOR — compacto */
 .acum-prev{
   padding:.7rem .8rem;
   background:#f5f7f6;
@@ -249,7 +242,6 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
   font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
   border-bottom:2px solid #cddbd5;
 }
-/* row styles */
 .summary-row-cur td{background:#fff;color:var(--text-1);font-weight:600;}
 .summary-row-cur td:first-child{color:var(--verde-forte);}
 .summary-row-cur .s-acm{font-weight:800;color:var(--verde-militar);}
@@ -259,7 +251,6 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
 .summary-row-meta td{background:#fffdf0;color:#7a6000;font-weight:500;}
 .summary-row-meta td:first-child{color:#7a6000;}
 .summary-row-meta .s-acm{font-weight:700;}
-/* célula vazia */
 .s-null{color:var(--text-3);}
 
 /* TABLE */
@@ -394,7 +385,7 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
         <label class="filter-label">Ano / Mês</label>
         <select class="filter-select" id="filter-anomes" onchange="applyFilters()"><option value="">Todos</option></select>
       </div>
-      <div class="filter-group filter-unidade-wrap">
+      <div class="filter-group">
         <label class="filter-label">Unidade</label>
         <select class="filter-select" id="filter-unidade" onchange="applyFilters()"><option value="">Todas</option></select>
       </div>
@@ -758,7 +749,7 @@ function renderKPIs() {
     </div>`).join('');
 }
 
-/* ── PAINEL COMBINADO: cur em cima + prev embaixo ── */
+/* ── PAINEL COMBINADO ── */
 function renderCombinedPanel(elId, cd, numCol, denCol, refNumCol, numColAnt, denColAnt, refNumColAnt, prefix, suffix, isPercent, invertDiff, refLabel) {
   const el = document.getElementById(elId);
   if (!el) return;
@@ -766,7 +757,6 @@ function renderCombinedPanel(elId, cd, numCol, denCol, refNumCol, numColAnt, den
   const { cur, prev } = getYears(cd);
   const mul = isPercent ? 100 : 1;
 
-  /* ANO ATUAL */
   const valCur = ratio(cd, numCol, denCol) * mul;
   const refCur = refNumCol ? ratio(cd, refNumCol, denCol) * mul : null;
   const difCur = refCur !== null ? valCur - refCur : null;
@@ -787,7 +777,6 @@ function renderCombinedPanel(elId, cd, numCol, denCol, refNumCol, numColAnt, den
   const badgeHtmlCur = difCur !== null ? `
     <span class="acum-badge ${badgeCls}">${badgeArrow} ${fmt(Math.abs(difCur))}${suffix}</span>` : '';
 
-  /* ANO ANTERIOR */
   let prevHtml = '';
   if (prev && numColAnt) {
     const valPrev = ratio(cd, numColAnt, denColAnt) * mul;
@@ -834,17 +823,16 @@ function renderCombinedPanel(elId, cd, numCol, denCol, refNumCol, numColAnt, den
 /* ── CHART ── */
 const MES_LABELS = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 
-/* Paleta por ano — índice 0 = ano mais recente */
+/* ALTERAÇÃO 1: cor do ano anterior trocada para #078CAD (azul do KPI) */
 const YEAR_PALETTE = [
   { border:'rgb(66,104,77)',  bg:'rgba(66,104,77,.08)',  dash:[],    width:2.5, radius:4 },  /* cur  — verde sólido */
-  { border:'rgb(83,209,236)', bg:'rgba(83,209,236,.05)', dash:[3,3], width:1.5, radius:3 },  /* prev — ciano tracejado */
-  { border:'rgb(180,120,60)', bg:'rgba(180,120,60,.05)', dash:[4,4], width:1.5, radius:3 },  /* etc  */
+  { border:'#078CAD',         bg:'rgba(7,140,173,.05)',  dash:[3,3], width:1.5, radius:3 },  /* prev — azul KPI tracejado */
+  { border:'rgb(180,120,60)', bg:'rgba(180,120,60,.05)', dash:[4,4], width:1.5, radius:3 },
 ];
 
 const inlineLabelsPlugin = {
   id: 'inlineLabels',
   afterDatasetsDraw(chart) {
-    /* desenha labels apenas no dataset do ano atual (index 0) */
     const ds   = chart.data.datasets[0];
     if (!ds) return;
     const meta = chart.getDatasetMeta(0);
@@ -878,17 +866,13 @@ const inlineLabelsPlugin = {
 
 function destroyChart(key) { if(CHARTS[key]){ CHARTS[key].destroy(); delete CHARTS[key]; } }
 
-/*
-  buildProChart — eixo X = Jan…Dez (12 posições fixas)
-  yearSeries: [ { year, data:[12 valores|null], isRef:false }, { year:'Padrão/Meta', data:[...], isRef:true } ]
-  O dataset do ano mais recente é sempre index 0 (recebe inline labels).
-*/
 function buildProChart(canvasId, key, yearSeries, yLabel, decimals) {
   destroyChart(key);
   const ctx = document.getElementById(canvasId);
   if (!ctx) return;
 
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    let realIdx = 0;
     const datasets = yearSeries.map((s, i) => {
       if (s.isRef) {
         return {
@@ -901,19 +885,21 @@ function buildProChart(canvasId, key, yearSeries, yLabel, decimals) {
           order: yearSeries.length + 1
         };
       }
-      const pal = YEAR_PALETTE[i] || YEAR_PALETTE[YEAR_PALETTE.length-1];
+      const pal = YEAR_PALETTE[realIdx] || YEAR_PALETTE[YEAR_PALETTE.length-1];
+      const isFirst = realIdx === 0;
+      realIdx++;
       return {
         label: `Realizado ${s.year}`,
         data: s.data,
         borderColor: pal.border,
-        backgroundColor: i === 0 ? pal.bg : 'transparent',
-        fill: i === 0,
+        backgroundColor: isFirst ? pal.bg : 'transparent',
+        fill: isFirst,
         borderDash: pal.dash,
         tension: .4,
         pointRadius: pal.radius,
         pointBackgroundColor: pal.border,
         pointBorderColor: '#fff',
-        pointBorderWidth: i === 0 ? 2 : 1,
+        pointBorderWidth: isFirst ? 2 : 1,
         borderWidth: pal.width,
         order: i + 1
       };
@@ -954,16 +940,7 @@ function buildProChart(canvasId, key, yearSeries, yLabel, decimals) {
   }));
 }
 
-function updateChartTitleBadge(titleId, baseTitle, unidade) {
-  const el = document.getElementById(titleId);
-  if (!el) return;
-  const badge = unidade
-    ? `<span class="chart-filter-badge">📍 ${unidade}</span>`
-    : `<span class="chart-filter-badge all">Todas as Unidades</span>`;
-  const btn = document.getElementById(`export-btn-${titleId.replace('title-','')}`);
-  el.innerHTML = baseTitle + badge;
-  if (btn) el.appendChild(btn);
-}
+/* ALTERAÇÃO 2: updateChartTitleBadge removida — título fica limpo */
 
 /* ── EXPORTAR PDF ── */
 async function exportToPDF(key) {
@@ -1001,7 +978,6 @@ function renderIndicator(cfg, updateChart) {
   const anoFiltro = document.getElementById('filter-anomes').value;
   const anoTabela = anoFiltro ? anoFiltro.slice(0,4) : getYears(d).cur;
 
-  /* Painel combinado (coluna única) */
   renderCombinedPanel(
     `panel-${cfg.key}`, cd,
     cfg.numCol, cfg.denCol, cfg.refNumCol,
@@ -1010,18 +986,11 @@ function renderIndicator(cfg, updateChart) {
     cfg.refLabel || (cfg.invertDiff ? 'Meta' : 'Padrão')
   );
 
-  /* Gráfico — eixo X = Jan…Dez, um dataset por ano
-     Regra de colunas:
-       linhas 2025-* → dados reais em numColAnt/denColAnt, meta em refNumColAnt
-       linhas 2026-* → dados reais em numCol/denCol,    meta em refNumCol
-     Meta fallback: se mês não tem meta no ano atual, usa meta do mesmo mês no ano anterior
-  */
   if (updateChart) {
     const years = [...new Set(cd.map(r => getYear(r[COL.ANOMES])).filter(Boolean))].sort().reverse();
     const curYear  = years[0] || '';
     const prevYear = years[1] || '';
 
-    /* byYearMes[ano][mes] = [rows] */
     const byYearMes = {};
     cd.forEach(r => {
       const y = getYear(r[COL.ANOMES]);
@@ -1034,12 +1003,9 @@ function renderIndicator(cfg, updateChart) {
 
     const mesKeys = ['01','02','03','04','05','06','07','08','09','10','11','12'];
 
-    /* Helper: escolhe numCol/denCol corretos conforme o ano da linha */
     function ratioForYear(y, m, nCol, dCol, nColAnt, dColAnt) {
       const rows = (byYearMes[y]||{})[m] || [];
       if (!rows.length) return null;
-      /* linhas desse ano/mês: se o ano é o mais recente usam colunas normais;
-         se é o ano anterior usam colunas _ANT */
       const useAnt = (y !== curYear);
       const nc = useAnt ? nColAnt : nCol;
       const dc = useAnt ? dColAnt : dCol;
@@ -1048,49 +1014,32 @@ function renderIndicator(cfg, updateChart) {
       return val !== 0 || rows.some(r => n(r[dc]) !== 0) ? parseFloat(val.toFixed(4)) : null;
     }
 
-    /* Séries de realizado — uma por ano, do mais recente ao mais antigo */
     const yearSeries = years.map(y => ({
       year: y,
       isRef: false,
       data: mesKeys.map(m => ratioForYear(y, m, cfg.numCol, cfg.denCol, cfg.numColAnt, cfg.denColAnt))
     }));
 
-    /* Série de meta com fallback: ano atual → se null → ano anterior */
     if (cfg.refNumCol && cfg.refNumColAnt) {
       const refData = mesKeys.map(m => {
-        /* tenta meta do ano atual */
         const rowsCur = (byYearMes[curYear]||{})[m] || [];
-        if (rowsCur.length) {
-          const den = sumCol(rowsCur, cfg.denCol);
-          if (den !== 0) {
-            const num = sumCol(rowsCur, cfg.refNumCol);
-            if (num !== 0) return parseFloat((num / den * mul).toFixed(4));
-          }
-        }
-        /* fallback: meta do ano anterior para o mesmo mês */
-        const rowsPrev = (byYearMes[prevYear]||{})[m] || [];
-        if (rowsPrev.length) {
-          const den = sumCol(rowsPrev, cfg.denColAnt);
-          if (den !== 0) {
-            const num = sumCol(rowsPrev, cfg.refNumColAnt);
-            if (num !== 0) return parseFloat((num / den * mul).toFixed(4));
-          }
-        }
-        return null;
+        if (!rowsCur.length) return null;
+        const den = sumCol(rowsCur, cfg.denCol);
+        if (den === 0) return null;
+        const num = sumCol(rowsCur, cfg.refNumCol);
+        if (num === 0) return null;
+        return parseFloat((num / den * mul).toFixed(4));
       });
-      /* insere meta logo após o primeiro dataset (ano atual) */
       yearSeries.splice(1, 0, { year: 'Padrão / Meta', isRef: true, data: refData });
     }
 
     buildProChart(`chart-${cfg.key}`, cfg.key, yearSeries, cfg.yLabel, cfg.decimals);
   }
 
-  updateChartTitleBadge(`title-${cfg.key}`, cfg.baseTitle, CHART_UNIDADE);
+  /* ALTERAÇÃO 3: sem chamada ao updateChartTitleBadge — título permanece como definido no HTML */
 
-  /* Tabela de resumo mensal */
   renderSummaryTable(cfg, cd);
 
-  /* Tabela detalhe */
   const tabelaRows = d.filter(r => getYear(r[COL.ANOMES]) === anoTabela);
   const thead = document.querySelector(`#table-${cfg.key} thead`);
   const tbody  = document.querySelector(`#table-${cfg.key} tbody`);
@@ -1098,7 +1047,7 @@ function renderIndicator(cfg, updateChart) {
   tbody.innerHTML  = tabelaRows.map(r=>cfg.tableRow(r)).join('');
 }
 
-/* ── SUMMARY TABLE (resumo mensal abaixo do gráfico) ── */
+/* ── SUMMARY TABLE ── */
 function renderSummaryTable(cfg, cd) {
   const el = document.getElementById(`summary-${cfg.key}`);
   if (!el) return;
@@ -1112,7 +1061,6 @@ function renderSummaryTable(cfg, cd) {
   const curYear  = years[0] || '';
   const prevYear = years[1] || '';
 
-  /* byYearMes */
   const byYearMes = {};
   cd.forEach(r => {
     const y = getYear(r[COL.ANOMES]);
@@ -1125,7 +1073,6 @@ function renderSummaryTable(cfg, cd) {
 
   const mesKeys = ['01','02','03','04','05','06','07','08','09','10','11','12'];
 
-  /* valor por ano×mês usando coluna correta */
   function valMes(y, m, nCol, dCol, nColAnt, dColAnt) {
     const rows = (byYearMes[y]||{})[m] || [];
     if (!rows.length) return null;
@@ -1138,7 +1085,6 @@ function renderSummaryTable(cfg, cd) {
     return sumCol(rows, nc) / den * mul;
   }
 
-  /* acumulado: SUM(num) / SUM(den) sobre todos os meses do ano */
   function acumAnual(y, nCol, dCol, nColAnt, dColAnt) {
     const useAnt = (y !== curYear);
     const nc = useAnt ? nColAnt : nCol;
@@ -1149,37 +1095,26 @@ function renderSummaryTable(cfg, cd) {
     return den !== 0 ? sumCol(rows, nc) / den * mul : null;
   }
 
-  /* meta com fallback */
   function metaMes(m) {
     const rowsCur = (byYearMes[curYear]||{})[m] || [];
-    if (rowsCur.length) {
-      const den = sumCol(rowsCur, cfg.denCol);
-      if (den !== 0) { const num = sumCol(rowsCur, cfg.refNumCol); if (num !== 0) return num/den*mul; }
-    }
-    const rowsPrev = (byYearMes[prevYear]||{})[m] || [];
-    if (rowsPrev.length) {
-      const den = sumCol(rowsPrev, cfg.denColAnt);
-      if (den !== 0) { const num = sumCol(rowsPrev, cfg.refNumColAnt); if (num !== 0) return num/den*mul; }
-    }
-    return null;
+    if (!rowsCur.length) return null;
+    const den = sumCol(rowsCur, cfg.denCol);
+    if (den === 0) return null;
+    const num = sumCol(rowsCur, cfg.refNumCol);
+    if (num === 0) return null;
+    return num / den * mul;
   }
 
   function metaAcum() {
-    /* acumulado da meta: só meses onde há dados do ano atual */
     let numT=0, denT=0;
     mesKeys.forEach(m => {
       const rowsCur = (byYearMes[curYear]||{})[m] || [];
-      if (rowsCur.length) {
-        const den = sumCol(rowsCur, cfg.denCol);
-        if (den !== 0 && sumCol(rowsCur, cfg.refNumCol) !== 0) {
-          numT += sumCol(rowsCur, cfg.refNumCol); denT += den; return;
-        }
-      }
-      const rowsPrev = (byYearMes[prevYear]||{})[m] || [];
-      if (rowsPrev.length) {
-        const den = sumCol(rowsPrev, cfg.denColAnt);
-        if (den !== 0) { numT += sumCol(rowsPrev, cfg.refNumColAnt); denT += den; }
-      }
+      if (!rowsCur.length) return;
+      const den = sumCol(rowsCur, cfg.denCol);
+      if (den === 0) return;
+      const num = sumCol(rowsCur, cfg.refNumCol);
+      if (num === 0) return;
+      numT += num; denT += den;
     });
     return denT !== 0 ? numT/denT*mul : null;
   }
@@ -1188,7 +1123,7 @@ function renderSummaryTable(cfg, cd) {
     if (v === null || v === undefined || isNaN(v)) return `<td class="s-null">-</td>`;
     return `<td>${prefix}${fmt(v, dec)}${suffix}</td>`;
   }
-  function acmCell(v, cls) {
+  function acmCell(v) {
     if (v === null || v === undefined || isNaN(v)) return `<td class="s-acm s-null">-</td>`;
     return `<td class="s-acm">${prefix}${fmt(v, dec)}${suffix}</td>`;
   }
