@@ -235,6 +235,31 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
 .chart-line-inner{position:relative;flex:1;width:100%;height:100%;padding:.75rem;}
 .chart-line-inner canvas{display:block;width:100% !important;height:100% !important;}
 
+/* SUMMARY TABLE */
+.summary-wrap{overflow-x:auto;border-top:2px solid #eef2f0;padding:.85rem 0 0;flex-shrink:0;margin-bottom:.6rem;}
+.summary-table{border-collapse:collapse;font-size:.75rem;width:100%;}
+.summary-table th,
+.summary-table td{padding:.32rem .6rem;text-align:right;white-space:nowrap;border:1px solid #e8eeeb;}
+.summary-table th:first-child,
+.summary-table td:first-child{text-align:left;font-weight:700;min-width:54px;}
+.summary-table thead th{
+  background:#f0f4f2;color:var(--verde-forte);
+  font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+  border-bottom:2px solid #cddbd5;
+}
+/* row styles */
+.summary-row-cur td{background:#fff;color:var(--text-1);font-weight:600;}
+.summary-row-cur td:first-child{color:var(--verde-forte);}
+.summary-row-cur .s-acm{font-weight:800;color:var(--verde-militar);}
+.summary-row-prev td{background:#f8faf9;color:var(--text-2);font-weight:500;}
+.summary-row-prev td:first-child{color:var(--text-2);}
+.summary-row-prev .s-acm{font-weight:700;color:var(--text-2);}
+.summary-row-meta td{background:#fffdf0;color:#7a6000;font-weight:500;}
+.summary-row-meta td:first-child{color:#7a6000;}
+.summary-row-meta .s-acm{font-weight:700;}
+/* célula vazia */
+.s-null{color:var(--text-3);}
+
 /* TABLE */
 .data-table-wrap{overflow-x:auto;border-top:2px solid #eef2f0;padding-top:1rem;flex-shrink:0;}
 .data-table{width:100%;border-collapse:collapse;font-size:.78rem;}
@@ -368,6 +393,7 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
           <div class="acum-panel-combined" id="panel-viabilidade"></div>
           <div class="chart-line-panel"><div class="chart-line-inner"><canvas id="chart-viabilidade"></canvas></div></div>
         </div>
+        <div class="summary-wrap" id="summary-viabilidade"></div>
         <div class="data-table-wrap"><table class="data-table" id="table-viabilidade"><thead></thead><tbody></tbody></table></div>
       </div>
     </div>
@@ -381,6 +407,7 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
           <div class="acum-panel-combined" id="panel-racao"></div>
           <div class="chart-line-panel"><div class="chart-line-inner"><canvas id="chart-racao"></canvas></div></div>
         </div>
+        <div class="summary-wrap" id="summary-racao"></div>
         <div class="data-table-wrap"><table class="data-table" id="table-racao"><thead></thead><tbody></tbody></table></div>
       </div>
     </div>
@@ -394,6 +421,7 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
           <div class="acum-panel-combined" id="panel-custo"></div>
           <div class="chart-line-panel"><div class="chart-line-inner"><canvas id="chart-custo"></canvas></div></div>
         </div>
+        <div class="summary-wrap" id="summary-custo"></div>
         <div class="data-table-wrap"><table class="data-table" id="table-custo"><thead></thead><tbody></tbody></table></div>
       </div>
     </div>
@@ -407,6 +435,7 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
           <div class="acum-panel-combined" id="panel-custosm"></div>
           <div class="chart-line-panel"><div class="chart-line-inner"><canvas id="chart-custosm"></canvas></div></div>
         </div>
+        <div class="summary-wrap" id="summary-custosm"></div>
         <div class="data-table-wrap"><table class="data-table" id="table-custosm"><thead></thead><tbody></tbody></table></div>
       </div>
     </div>
@@ -744,17 +773,20 @@ function renderCombinedPanel(elId, cd, numCol, denCol, refNumCol, numColAnt, den
 }
 
 /* ── CHART ── */
-const C = {
-  realColor: 'rgb(66,104,77)',
-  realBg:    'rgba(66,104,77,.08)',
-  refColor:  'rgb(251,190,19)',
-  prevColor: 'rgb(83,209,236)',
-};
+const MES_LABELS = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+
+/* Paleta por ano — índice 0 = ano mais recente */
+const YEAR_PALETTE = [
+  { border:'rgb(66,104,77)',  bg:'rgba(66,104,77,.08)',  dash:[],    width:2.5, radius:4 },  /* cur  — verde sólido */
+  { border:'rgb(83,209,236)', bg:'rgba(83,209,236,.05)', dash:[3,3], width:1.5, radius:3 },  /* prev — ciano tracejado */
+  { border:'rgb(180,120,60)', bg:'rgba(180,120,60,.05)', dash:[4,4], width:1.5, radius:3 },  /* etc  */
+];
 
 const inlineLabelsPlugin = {
   id: 'inlineLabels',
   afterDatasetsDraw(chart) {
-    const ds = chart.data.datasets[0];
+    /* desenha labels apenas no dataset do ano atual (index 0) */
+    const ds   = chart.data.datasets[0];
     if (!ds) return;
     const meta = chart.getDatasetMeta(0);
     if (!meta || meta.hidden) return;
@@ -766,7 +798,7 @@ const inlineLabelsPlugin = {
     meta.data.forEach((pt, i) => {
       const val = ds.data[i];
       if (val === null || val === undefined) return;
-      const dec = (chart.config.options.plugins.inlineLabels||{}).decimals ?? 3;
+      const dec = (chart.config.options.plugins.inlineLabels||{}).decimals ?? 2;
       const txt = val.toFixed(dec);
       const x = pt.x, y = pt.y - 7;
       const w = ctx2.measureText(txt).width + 6;
@@ -787,55 +819,78 @@ const inlineLabelsPlugin = {
 
 function destroyChart(key) { if(CHARTS[key]){ CHARTS[key].destroy(); delete CHARTS[key]; } }
 
-function buildProChart(canvasId, key, months, realData, refData, prevData, prevYear, curYear, yLabel, decimals) {
+/*
+  buildProChart — eixo X = Jan…Dez (12 posições fixas)
+  yearSeries: [ { year, data:[12 valores|null], isRef:false }, { year:'Padrão/Meta', data:[...], isRef:true } ]
+  O dataset do ano mais recente é sempre index 0 (recebe inline labels).
+*/
+function buildProChart(canvasId, key, yearSeries, yLabel, decimals) {
   destroyChart(key);
   const ctx = document.getElementById(canvasId);
   if (!ctx) return;
+
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
-    const datasets = [
-      {
-        label:`Realizado ${curYear}`, data:realData,
-        borderColor:C.realColor, backgroundColor:C.realBg,
-        fill:true, tension:.4, pointRadius:4, pointBackgroundColor:C.realColor,
-        pointBorderColor:'#fff', pointBorderWidth:2, borderWidth:2.5, order:1
-      },
-      {
-        label:'Padrão / Meta', data:refData,
-        borderColor:C.refColor, borderDash:[6,3], tension:.3,
-        pointRadius:3, pointBackgroundColor:C.refColor,
-        fill:false, borderWidth:2, order:2
+    const datasets = yearSeries.map((s, i) => {
+      if (s.isRef) {
+        return {
+          label: s.year,
+          data: s.data,
+          borderColor: 'rgb(251,190,19)',
+          borderDash: [6,3], tension:.3,
+          pointRadius:3, pointBackgroundColor:'rgb(251,190,19)',
+          fill:false, borderWidth:2,
+          order: yearSeries.length + 1
+        };
       }
-    ];
-    if (prevData && prevData.some(v=>v!==null)) {
-      datasets.push({
-        label:`Realizado ${prevYear}`, data:prevData,
-        borderColor:C.prevColor, borderDash:[3,3], tension:.4,
-        pointRadius:3, pointBackgroundColor:C.prevColor,
-        fill:false, borderWidth:1.5, order:3
-      });
-    }
+      const pal = YEAR_PALETTE[i] || YEAR_PALETTE[YEAR_PALETTE.length-1];
+      return {
+        label: `Realizado ${s.year}`,
+        data: s.data,
+        borderColor: pal.border,
+        backgroundColor: i === 0 ? pal.bg : 'transparent',
+        fill: i === 0,
+        borderDash: pal.dash,
+        tension: .4,
+        pointRadius: pal.radius,
+        pointBackgroundColor: pal.border,
+        pointBorderColor: '#fff',
+        pointBorderWidth: i === 0 ? 2 : 1,
+        borderWidth: pal.width,
+        order: i + 1
+      };
+    });
+
     CHARTS[key] = new Chart(ctx, {
-      type:'line',
-      data:{ labels:months.map(m=>m.slice(5)+'/'+m.slice(0,4)), datasets },
-      options:{
-        responsive:true, maintainAspectRatio:false,
-        interaction:{ mode:'index', intersect:false },
-        plugins:{
-          legend:{ position:'bottom', labels:{ boxWidth:10, boxHeight:2, font:{size:10,family:'Inter'}, color:'#64748b', padding:12 } },
-          tooltip:{
+      type: 'line',
+      data: { labels: MES_LABELS, datasets },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode:'index', intersect:false },
+        plugins: {
+          legend: {
+            position:'bottom',
+            labels:{ boxWidth:10, boxHeight:2, font:{size:10,family:'Inter'}, color:'#64748b', padding:12 }
+          },
+          tooltip: {
             backgroundColor:'rgba(15,25,35,.92)', titleColor:'#f0f4f8', bodyColor:'#a8b8c8',
             padding:10, cornerRadius:6,
-            callbacks:{ label: c=>` ${c.dataset.label}: ${fmt(c.parsed.y)} ${yLabel}` }
+            callbacks: { label: c=>` ${c.dataset.label}: ${fmt(c.parsed.y, decimals ?? 2)} ${yLabel}` }
           },
-          inlineLabels:{ decimals: decimals ?? 3 }
+          inlineLabels: { decimals: decimals ?? 2 }
         },
-        scales:{
-          x:{ grid:{color:'rgba(0,0,0,.04)',drawBorder:false}, ticks:{font:{size:10,family:'Inter'},color:'#94a3b8',maxRotation:0} },
-          y:{ grid:{color:'rgba(0,0,0,.04)',drawBorder:false}, ticks:{font:{size:10,family:'Inter'},color:'#94a3b8'},
-              title:{display:true,text:yLabel,font:{size:9,family:'Inter'},color:'#94a3b8'} }
+        scales: {
+          x: {
+            grid:{ color:'rgba(0,0,0,.04)', drawBorder:false },
+            ticks:{ font:{size:10,family:'Inter'}, color:'#94a3b8', maxRotation:0 }
+          },
+          y: {
+            grid:{ color:'rgba(0,0,0,.04)', drawBorder:false },
+            ticks:{ font:{size:10,family:'Inter'}, color:'#94a3b8' },
+            title:{ display:true, text:yLabel, font:{size:9,family:'Inter'}, color:'#94a3b8' }
+          }
         }
       },
-      plugins:[inlineLabelsPlugin]
+      plugins: [inlineLabelsPlugin]
     });
   }));
 }
@@ -866,34 +921,228 @@ function renderIndicator(cfg, updateChart) {
     cfg.refLabel || (cfg.invertDiff ? 'Meta' : 'Padrão')
   );
 
-  /* Gráfico */
+  /* Gráfico — eixo X = Jan…Dez, um dataset por ano
+     Regra de colunas:
+       linhas 2025-* → dados reais em numColAnt/denColAnt, meta em refNumColAnt
+       linhas 2026-* → dados reais em numCol/denCol,    meta em refNumCol
+     Meta fallback: se mês não tem meta no ano atual, usa meta do mesmo mês no ano anterior
+  */
   if (updateChart) {
-    const months = getMonths(cd);
-    const byMes  = groupByMes(cd);
-    const realData = months.map(m => {
-      const rows=byMes[m]||[];
-      return rows.length ? parseFloat((ratio(rows,cfg.numCol,cfg.denCol)*mul).toFixed(4)) : null;
+    const years = [...new Set(cd.map(r => getYear(r[COL.ANOMES])).filter(Boolean))].sort().reverse();
+    const curYear  = years[0] || '';
+    const prevYear = years[1] || '';
+
+    /* byYearMes[ano][mes] = [rows] */
+    const byYearMes = {};
+    cd.forEach(r => {
+      const y = getYear(r[COL.ANOMES]);
+      const m = (r[COL.ANOMES]||'').slice(5);
+      if (!y || !m) return;
+      if (!byYearMes[y]) byYearMes[y] = {};
+      if (!byYearMes[y][m]) byYearMes[y][m] = [];
+      byYearMes[y][m].push(r);
     });
-    const refData = cfg.refNumCol ? months.map(m => {
-      const rows=byMes[m]||[];
-      return rows.length ? parseFloat((ratio(rows,cfg.refNumCol,cfg.denCol)*mul).toFixed(4)) : null;
-    }) : [];
-    const prevData = cfg.numColAnt ? months.map(m => {
-      const rows=byMes[m]||[];
-      return rows.length ? parseFloat((ratio(rows,cfg.numColAnt,cfg.denColAnt)*mul).toFixed(4)) : null;
-    }) : [];
-    const { cur, prev } = getYears(cd);
-    buildProChart(`chart-${cfg.key}`, cfg.key, months, realData, refData, prevData, prev||'Ant', cur, cfg.yLabel, cfg.decimals);
+
+    const mesKeys = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+
+    /* Helper: escolhe numCol/denCol corretos conforme o ano da linha */
+    function ratioForYear(y, m, nCol, dCol, nColAnt, dColAnt) {
+      const rows = (byYearMes[y]||{})[m] || [];
+      if (!rows.length) return null;
+      /* linhas desse ano/mês: se o ano é o mais recente usam colunas normais;
+         se é o ano anterior usam colunas _ANT */
+      const useAnt = (y !== curYear);
+      const nc = useAnt ? nColAnt : nCol;
+      const dc = useAnt ? dColAnt : dCol;
+      if (!nc || !dc) return null;
+      const val = ratio(rows, nc, dc) * mul;
+      return val !== 0 || rows.some(r => n(r[dc]) !== 0) ? parseFloat(val.toFixed(4)) : null;
+    }
+
+    /* Séries de realizado — uma por ano, do mais recente ao mais antigo */
+    const yearSeries = years.map(y => ({
+      year: y,
+      isRef: false,
+      data: mesKeys.map(m => ratioForYear(y, m, cfg.numCol, cfg.denCol, cfg.numColAnt, cfg.denColAnt))
+    }));
+
+    /* Série de meta com fallback: ano atual → se null → ano anterior */
+    if (cfg.refNumCol && cfg.refNumColAnt) {
+      const refData = mesKeys.map(m => {
+        /* tenta meta do ano atual */
+        const rowsCur = (byYearMes[curYear]||{})[m] || [];
+        if (rowsCur.length) {
+          const den = sumCol(rowsCur, cfg.denCol);
+          if (den !== 0) {
+            const num = sumCol(rowsCur, cfg.refNumCol);
+            if (num !== 0) return parseFloat((num / den * mul).toFixed(4));
+          }
+        }
+        /* fallback: meta do ano anterior para o mesmo mês */
+        const rowsPrev = (byYearMes[prevYear]||{})[m] || [];
+        if (rowsPrev.length) {
+          const den = sumCol(rowsPrev, cfg.denColAnt);
+          if (den !== 0) {
+            const num = sumCol(rowsPrev, cfg.refNumColAnt);
+            if (num !== 0) return parseFloat((num / den * mul).toFixed(4));
+          }
+        }
+        return null;
+      });
+      /* insere meta logo após o primeiro dataset (ano atual) */
+      yearSeries.splice(1, 0, { year: 'Padrão / Meta', isRef: true, data: refData });
+    }
+
+    buildProChart(`chart-${cfg.key}`, cfg.key, yearSeries, cfg.yLabel, cfg.decimals);
   }
 
   updateChartTitleBadge(`title-${cfg.key}`, cfg.baseTitle, CHART_UNIDADE);
 
-  /* Tabela */
+  /* Tabela de resumo mensal */
+  renderSummaryTable(cfg, cd);
+
+  /* Tabela detalhe */
   const tabelaRows = d.filter(r => getYear(r[COL.ANOMES]) === anoTabela);
   const thead = document.querySelector(`#table-${cfg.key} thead`);
   const tbody  = document.querySelector(`#table-${cfg.key} tbody`);
   thead.innerHTML = `<tr>${cfg.tableHead.map(h=>`<th>${h}</th>`).join('')}</tr>`;
   tbody.innerHTML  = tabelaRows.map(r=>cfg.tableRow(r)).join('');
+}
+
+/* ── SUMMARY TABLE (resumo mensal abaixo do gráfico) ── */
+function renderSummaryTable(cfg, cd) {
+  const el = document.getElementById(`summary-${cfg.key}`);
+  if (!el) return;
+
+  const mul = cfg.isPercent ? 100 : 1;
+  const dec = cfg.decimals ?? 2;
+  const prefix = cfg.prefix || '';
+  const suffix = cfg.suffix || '';
+
+  const years = [...new Set(cd.map(r => getYear(r[COL.ANOMES])).filter(Boolean))].sort().reverse();
+  const curYear  = years[0] || '';
+  const prevYear = years[1] || '';
+
+  /* byYearMes */
+  const byYearMes = {};
+  cd.forEach(r => {
+    const y = getYear(r[COL.ANOMES]);
+    const m = (r[COL.ANOMES]||'').slice(5);
+    if (!y || !m) return;
+    if (!byYearMes[y]) byYearMes[y] = {};
+    if (!byYearMes[y][m]) byYearMes[y][m] = [];
+    byYearMes[y][m].push(r);
+  });
+
+  const mesKeys = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+
+  /* valor por ano×mês usando coluna correta */
+  function valMes(y, m, nCol, dCol, nColAnt, dColAnt) {
+    const rows = (byYearMes[y]||{})[m] || [];
+    if (!rows.length) return null;
+    const useAnt = (y !== curYear);
+    const nc = useAnt ? nColAnt : nCol;
+    const dc = useAnt ? dColAnt : dCol;
+    if (!nc || !dc) return null;
+    const den = sumCol(rows, dc);
+    if (den === 0) return null;
+    return sumCol(rows, nc) / den * mul;
+  }
+
+  /* acumulado: SUM(num) / SUM(den) sobre todos os meses do ano */
+  function acumAnual(y, nCol, dCol, nColAnt, dColAnt) {
+    const useAnt = (y !== curYear);
+    const nc = useAnt ? nColAnt : nCol;
+    const dc = useAnt ? dColAnt : dCol;
+    if (!nc || !dc) return null;
+    const rows = cd.filter(r => getYear(r[COL.ANOMES]) === y);
+    const den = sumCol(rows, dc);
+    return den !== 0 ? sumCol(rows, nc) / den * mul : null;
+  }
+
+  /* meta com fallback */
+  function metaMes(m) {
+    const rowsCur = (byYearMes[curYear]||{})[m] || [];
+    if (rowsCur.length) {
+      const den = sumCol(rowsCur, cfg.denCol);
+      if (den !== 0) { const num = sumCol(rowsCur, cfg.refNumCol); if (num !== 0) return num/den*mul; }
+    }
+    const rowsPrev = (byYearMes[prevYear]||{})[m] || [];
+    if (rowsPrev.length) {
+      const den = sumCol(rowsPrev, cfg.denColAnt);
+      if (den !== 0) { const num = sumCol(rowsPrev, cfg.refNumColAnt); if (num !== 0) return num/den*mul; }
+    }
+    return null;
+  }
+
+  function metaAcum() {
+    /* acumulado da meta: só meses onde há dados do ano atual */
+    let numT=0, denT=0;
+    mesKeys.forEach(m => {
+      const rowsCur = (byYearMes[curYear]||{})[m] || [];
+      if (rowsCur.length) {
+        const den = sumCol(rowsCur, cfg.denCol);
+        if (den !== 0 && sumCol(rowsCur, cfg.refNumCol) !== 0) {
+          numT += sumCol(rowsCur, cfg.refNumCol); denT += den; return;
+        }
+      }
+      const rowsPrev = (byYearMes[prevYear]||{})[m] || [];
+      if (rowsPrev.length) {
+        const den = sumCol(rowsPrev, cfg.denColAnt);
+        if (den !== 0) { numT += sumCol(rowsPrev, cfg.refNumColAnt); denT += den; }
+      }
+    });
+    return denT !== 0 ? numT/denT*mul : null;
+  }
+
+  function cell(v) {
+    if (v === null || v === undefined || isNaN(v)) return `<td class="s-null">-</td>`;
+    return `<td>${prefix}${fmt(v, dec)}${suffix}</td>`;
+  }
+  function acmCell(v, cls) {
+    if (v === null || v === undefined || isNaN(v)) return `<td class="s-acm s-null">-</td>`;
+    return `<td class="s-acm">${prefix}${fmt(v, dec)}${suffix}</td>`;
+  }
+
+  const curData   = mesKeys.map(m => valMes(curYear,  m, cfg.numCol, cfg.denCol, cfg.numColAnt, cfg.denColAnt));
+  const prevData  = mesKeys.map(m => valMes(prevYear, m, cfg.numCol, cfg.denCol, cfg.numColAnt, cfg.denColAnt));
+  const metaData  = cfg.refNumCol ? mesKeys.map(m => metaMes(m)) : null;
+
+  const curAcm  = acumAnual(curYear,  cfg.numCol, cfg.denCol, cfg.numColAnt, cfg.denColAnt);
+  const prevAcm = acumAnual(prevYear, cfg.numCol, cfg.denCol, cfg.numColAnt, cfg.denColAnt);
+  const metaAcm = metaData ? metaAcum() : null;
+
+  const MES_HDR = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+
+  el.innerHTML = `
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Ano/Mês</th>
+          <th>Acm.</th>
+          ${MES_HDR.map(h=>`<th>${h}</th>`).join('')}
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="summary-row-cur">
+          <td>${curYear}</td>
+          ${acmCell(curAcm)}
+          ${curData.map(v=>cell(v)).join('')}
+        </tr>
+        ${prevYear ? `
+        <tr class="summary-row-prev">
+          <td>${prevYear}</td>
+          ${acmCell(prevAcm)}
+          ${prevData.map(v=>cell(v)).join('')}
+        </tr>` : ''}
+        ${metaData ? `
+        <tr class="summary-row-meta">
+          <td>Meta</td>
+          ${acmCell(metaAcm)}
+          ${metaData.map(v=>cell(v)).join('')}
+        </tr>` : ''}
+      </tbody>
+    </table>`;
 }
 
 /* ── RENDER ALL ── */
