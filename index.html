@@ -60,7 +60,8 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
 
 /* SIDEBAR */
 #sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:var(--verde-forte);overflow-y:auto;z-index:100;display:flex;flex-direction:column;}
-.sidebar-logo{padding:1.25rem 1.25rem 1rem;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:.5rem;}.pluma-logo{display:block;height:26px;width:auto;filter:brightness(0) invert(1);opacity:.7;margin-bottom:.65rem;}
+.sidebar-logo{padding:1.25rem 1.25rem 1rem;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:.5rem;}
+.pluma-logo{display:block;height:26px;width:auto;filter:brightness(0) invert(1);opacity:.7;margin-bottom:.65rem;}
 .sidebar-logo-eyebrow{font-family:'Montserrat',sans-serif;font-size:.52rem;font-weight:700;color:rgba(251,190,19,.6);letter-spacing:.18em;text-transform:uppercase;margin-bottom:.45rem;}
 .sidebar-logo-name{font-family:'Montserrat',sans-serif;font-size:1.15rem;font-weight:800;color:#fff;letter-spacing:-.01em;line-height:1;}
 .sidebar-logo-name span{color:var(--amarelo-forte);}
@@ -71,7 +72,9 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
 .nav-item{display:flex;align-items:center;gap:.65rem;padding:.55rem 1.25rem;color:rgba(255,255,255,.55);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .15s;border-left:3px solid transparent;text-decoration:none;margin:.05rem 0;}
 .nav-item:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.06);}
 .nav-item.active{background:rgba(251,190,19,.12);color:var(--amarelo-forte);border-left-color:var(--amarelo-forte);}
-.nav-item svg{width:16px;height:16px;flex-shrink:0;}
+.nav-item svg{width:16px;height:16px;flex-shrink:0;stroke:rgba(255,255,255,.55);transition:stroke .15s;}
+.nav-item:hover svg{stroke:rgba(255,255,255,.85);}
+.nav-item.active svg{stroke:var(--amarelo-forte);}
 .sidebar-footer{margin-top:auto;padding:1rem 1.25rem;border-top:1px solid rgba(255,255,255,.08);font-size:.68rem;color:rgba(255,255,255,.25);}
 .sidebar-footer span{color:rgba(255,255,255,.4);font-weight:600;}
 
@@ -123,7 +126,8 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
 
 /* CHART BLOCK */
 .chart-block{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.25rem 1.5rem 1.5rem;margin-bottom:1.25rem;display:flex;flex-direction:column;min-height:600px;}
-.chart-block-title{font-size:.72rem;font-weight:700;color:var(--verde-forte);text-transform:uppercase;letter-spacing:.07em;margin-bottom:1.1rem;padding-bottom:.7rem;border-bottom:2px solid #eef2f0;display:flex;align-items:center;gap:.6rem;flex-shrink:0;}
+.chart-block-title{font-size:.72rem;font-weight:700;color:var(--verde-forte);text-transform:uppercase;letter-spacing:.07em;display:flex;align-items:center;gap:.6rem;flex-shrink:0;}
+.chart-block-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;padding-bottom:.7rem;border-bottom:2px solid #eef2f0;}
 .chart-block-title::before{content:'';display:inline-block;width:8px;height:8px;background:var(--amarelo-forte);border-radius:2px;flex-shrink:0;}
 
 /* ── CHART PRO WRAP ── */
@@ -359,7 +363,7 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
 <div id="dashboard">
   <div id="sidebar">
     <div class="sidebar-logo">
-      <img class="pluma-logo" src="data:image/png;base64,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" alt="Pluma Agroavícola">
+      <img class="pluma-logo" src="Pluma-logomarca.png" alt="Pluma Agroavícola">
       <div class="sidebar-logo-eyebrow">Gestão de Matrizes</div>
       <div class="sidebar-logo-name">GMI <span>Recria</span></div>
       <div class="sidebar-logo-tag">
@@ -369,43 +373,19 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
     </div>
     <div class="sidebar-section-label">Indicadores</div>
     <a class="nav-item active" data-page="viabilidade" onclick="setPage('viabilidade',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-        <ellipse cx="10" cy="14" rx="5" ry="4"/>
-        <path d="M15 13 Q19 11 18 7 Q16 8 15 10"/>
-        <circle cx="17.5" cy="5.5" r="1.5"/>
-        <path d="M7 18 L6.5 21 M10 18.5 L10 21 M13 18 L13.5 21"/>
-        <path d="M5.5 11 Q3.5 10 4 8 Q5 9 6 10"/>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
       Viabilidade de Recria
     </a>
     <a class="nav-item" data-page="racao" onclick="setPage('racao',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="5" y="8" width="14" height="11" rx="2"/>
-        <path d="M8 8 Q9 4 12 4 Q15 4 16 8"/>
-        <path d="M9 12.5 Q12 11.5 15 12.5"/>
-        <path d="M9 15.5 Q12 14.5 15 15.5"/>
-        <circle cx="12" cy="8.5" r="0.8" fill="currentColor"/>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2h18v7a9 9 0 0 1-9 9 9 9 0 0 1-9-9V2z"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
       Ração / Fêmea
     </a>
     <a class="nav-item" data-page="custo" onclick="setPage('custo',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="13" r="6"/>
-        <path d="M12 9.5 L12 16.5"/>
-        <path d="M9.5 11.2 Q12 10 14.5 11.2 Q14.5 13 12 13 Q14.5 13 14.5 14.8 Q12 16 9.5 14.8"/>
-        <path d="M9.5 5.5 Q12 3.5 14.5 5.5"/>
-        <line x1="12" y1="3.5" x2="12" y2="7"/>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
       Custo Franga Recriada
     </a>
     <a class="nav-item" data-page="custosm" onclick="setPage('custosm',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="13" r="6"/>
-        <path d="M12 9.5 L12 16.5"/>
-        <path d="M9.5 11.2 Q12 10 14.5 11.2 Q14.5 13 12 13 Q14.5 13 14.5 14.8 Q12 16 9.5 14.8"/>
-        <path d="M9.5 5.5 Q12 3.5 14.5 5.5"/>
-        <line x1="12" y1="3.5" x2="12" y2="7"/>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/><line x1="5" y1="5" x2="19" y2="19"/></svg>
       Custo S/ Matriz e Ração
     </a>
     <div class="sidebar-footer">arquivo: <span id="sidebar-filename">—</span></div>
@@ -475,14 +455,14 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
     <div id="page-viabilidade" class="nav-page active">
       <div class="section-hdr"><div class="section-hdr-bar"></div><div class="section-hdr-title">Viabilidade de Recria</div></div>
       <div class="chart-block">
-        <div class="chart-block-title" id="title-viabilidade">
-          % Viabilidade — Realizado vs Padrão
-          <button class="export-pdf-btn" id="export-btn-viabilidade" onclick="exportToPDF('viabilidade')">
+        <div class="chart-block-header">
+          <button class="export-pdf-btn" id="export-btn-viabilidade" onclick="exportToPDF('viabilidade')" style="margin-left:auto">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             Exportar PDF
           </button>
         </div>
         <div class="export-capture" id="capture-viabilidade">
+          <div class="chart-block-title" id="title-viabilidade" style="margin-bottom:1.1rem; padding-bottom:.7rem; border-bottom:2px solid #eef2f0;">% Viabilidade — Realizado vs Padrão</div>
           <div class="chart-pro-wrap" id="pro-viabilidade">
             <div class="acum-panel-combined" id="panel-viabilidade"></div>
             <div class="chart-line-panel"><div class="chart-line-inner"><canvas id="chart-viabilidade"></canvas></div></div>
@@ -497,14 +477,14 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
     <div id="page-racao" class="nav-page">
       <div class="section-hdr"><div class="section-hdr-bar"></div><div class="section-hdr-title">Ração / Fêmea</div></div>
       <div class="chart-block">
-        <div class="chart-block-title" id="title-racao">
-          KG Ração por Fêmea — Realizado vs Padrão
-          <button class="export-pdf-btn" id="export-btn-racao" onclick="exportToPDF('racao')">
+        <div class="chart-block-header">
+          <button class="export-pdf-btn" id="export-btn-racao" onclick="exportToPDF('racao')" style="margin-left:auto">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             Exportar PDF
           </button>
         </div>
         <div class="export-capture" id="capture-racao">
+          <div class="chart-block-title" id="title-racao" style="margin-bottom:1.1rem;padding-bottom:.7rem;border-bottom:2px solid #eef2f0;">KG Ração por Fêmea — Realizado vs Padrão</div>
           <div class="chart-pro-wrap" id="pro-racao">
             <div class="acum-panel-combined" id="panel-racao"></div>
             <div class="chart-line-panel"><div class="chart-line-inner"><canvas id="chart-racao"></canvas></div></div>
@@ -519,14 +499,14 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
     <div id="page-custo" class="nav-page">
       <div class="section-hdr"><div class="section-hdr-bar"></div><div class="section-hdr-title">Custo Franga Recriada</div></div>
       <div class="chart-block">
-        <div class="chart-block-title" id="title-custo">
-          R$/Fêmea Recriada — Realizado vs Meta
-          <button class="export-pdf-btn" id="export-btn-custo" onclick="exportToPDF('custo')">
+        <div class="chart-block-header">
+          <button class="export-pdf-btn" id="export-btn-custo" onclick="exportToPDF('custo')" style="margin-left:auto">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             Exportar PDF
           </button>
         </div>
         <div class="export-capture" id="capture-custo">
+          <div class="chart-block-title" id="title-custo" style="margin-bottom:1.1rem;padding-bottom:.7rem;border-bottom:2px solid #eef2f0;">R$/Fêmea Recriada — Realizado vs Meta</div>
           <div class="chart-pro-wrap" id="pro-custo">
             <div class="acum-panel-combined" id="panel-custo"></div>
             <div class="chart-line-panel"><div class="chart-line-inner"><canvas id="chart-custo"></canvas></div></div>
@@ -541,14 +521,14 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
     <div id="page-custosm" class="nav-page">
       <div class="section-hdr"><div class="section-hdr-bar"></div><div class="section-hdr-title">Custo Franga — Sem Matriz e Ração</div></div>
       <div class="chart-block">
-        <div class="chart-block-title" id="title-custosm">
-          R$/Fêmea Sem Matriz e Ração — Realizado vs Meta
-          <button class="export-pdf-btn" id="export-btn-custosm" onclick="exportToPDF('custosm')">
+        <div class="chart-block-header">
+          <button class="export-pdf-btn" id="export-btn-custosm" onclick="exportToPDF('custosm')" style="margin-left:auto">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             Exportar PDF
           </button>
         </div>
         <div class="export-capture" id="capture-custosm">
+          <div class="chart-block-title" id="title-custosm" style="margin-bottom:1.1rem;padding-bottom:.7rem;border-bottom:2px solid #eef2f0;">R$/Fêmea Sem Matriz e Ração — Realizado vs Meta</div>
           <div class="chart-pro-wrap" id="pro-custosm">
             <div class="acum-panel-combined" id="panel-custosm"></div>
             <div class="chart-line-panel"><div class="chart-line-inner"><canvas id="chart-custosm"></canvas></div></div>
@@ -719,7 +699,6 @@ function semBadge(diff, invertLogic) {
 }
 
 /* ── FILTERS ── */
-/* ── MULTISELECT STATE ── */
 const MS = { anomes: new Set(), unidade: new Set(), granja: new Set(), lote: new Set() };
 const MS_VALS = { anomes: [], unidade: [], granja: [], lote: [] };
 
@@ -983,10 +962,9 @@ function renderCombinedPanel(elId, cd, numCol, denCol, refNumCol, numColAnt, den
 /* ── CHART ── */
 const MES_LABELS = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 
-/* ALTERAÇÃO 1: cor do ano anterior trocada para #078CAD (azul do KPI) */
 const YEAR_PALETTE = [
-  { border:'rgb(66,104,77)',  bg:'rgba(66,104,77,.08)',  dash:[],    width:2.5, radius:4 },  /* cur  — verde sólido */
-  { border:'#078CAD',         bg:'rgba(7,140,173,.05)',  dash:[3,3], width:1.5, radius:3 },  /* prev — azul KPI tracejado */
+  { border:'rgb(66,104,77)',  bg:'rgba(66,104,77,.08)',  dash:[],    width:2.5, radius:4 },
+  { border:'#078CAD',         bg:'rgba(7,140,173,.05)',  dash:[3,3], width:1.5, radius:3 },
   { border:'rgb(180,120,60)', bg:'rgba(180,120,60,.05)', dash:[4,4], width:1.5, radius:3 },
 ];
 
@@ -1089,6 +1067,16 @@ function buildProChart(canvasId, key, yearSeries, yLabel, decimals) {
             ticks:{ font:{size:10,family:'Inter'}, color:'#94a3b8', maxRotation:0 }
           },
           y: {
+            min: (ctx) => {
+              const vals = ctx.chart.data.datasets.flatMap(d => d.data).filter(v => v !== null);
+              const minVal = Math.min(...vals);
+              return Math.floor(minVal * 0.985);
+            },
+            max: (ctx) => {
+              const vals = ctx.chart.data.datasets.flatMap(d => d.data).filter(v => v !== null);
+              const maxVal = Math.max(...vals);
+              return Math.ceil(maxVal * 1.015);
+            },
             grid:{ color:'rgba(0,0,0,.04)', drawBorder:false },
             ticks:{ font:{size:10,family:'Inter'}, color:'#94a3b8' },
             title:{ display:true, text:yLabel, font:{size:9,family:'Inter'}, color:'#94a3b8' }
@@ -1099,8 +1087,6 @@ function buildProChart(canvasId, key, yearSeries, yLabel, decimals) {
     });
   }));
 }
-
-/* ALTERAÇÃO 2: updateChartTitleBadge removida — título fica limpo */
 
 /* ── EXPORTAR PDF ── */
 async function exportToPDF(key) {
@@ -1195,8 +1181,6 @@ function renderIndicator(cfg, updateChart) {
 
     buildProChart(`chart-${cfg.key}`, cfg.key, yearSeries, cfg.yLabel, cfg.decimals);
   }
-
-  /* ALTERAÇÃO 3: sem chamada ao updateChartTitleBadge — título permanece como definido no HTML */
 
   renderSummaryTable(cfg, cd);
 
