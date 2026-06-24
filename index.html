@@ -530,7 +530,7 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
     </div>
   </div>
 </div>
-<div class="page-footer">by Eduardo &amp; Antonio</div>
+<div class="page-footer" id="page-footer">by Eduardo &amp; Antonio</div>
 
 <script>
 const COL = {
@@ -669,6 +669,7 @@ function parseData(rows) {
   document.getElementById('loading').classList.remove('visible');
   document.getElementById('upload-screen').style.display = 'none';
   document.getElementById('dashboard').style.display = 'block';
+  document.getElementById('page-footer').style.display = 'none';
   renderAll();
 }
 
@@ -1408,6 +1409,7 @@ function resetDashboard() {
   loadBtn.disabled=true;
   document.getElementById('dashboard').style.display='none';
   document.getElementById('upload-screen').style.display='flex';
+  document.getElementById('page-footer').style.display='block';
   setPage('viabilidade', document.querySelector('[data-page="viabilidade"]'));
 }
 </script>
