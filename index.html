@@ -655,7 +655,14 @@ function parseData(rows) {
 
   RAW_DATA = filled.filter(r => {
     const a = (r[COL.ANOMES]||'').toLowerCase();
-    return a && a!=='total' && a!=='ano/mês' && r[COL.LOTE];
+    if (!a || a==='total' || a==='ano/mês') return false;
+    if (!/^\d{4}-\d{2}$/.test(a)) return false;
+    const lote = (r[COL.LOTE]||'').toString().trim();
+    if (!lote) return false;
+    const temDados = n(r[COL.E]) !== 0 || n(r[COL.F_VIAB]) !== 0 || n(r[COL.F_CUSTO]) !== 0 ||
+                     n(r[COL.H]) !== 0 || n(r[COL.J]) !== 0 || n(r[COL.L]) !== 0;
+    if (!temDados) return false;
+    return true;
   });
 
   if (!RAW_DATA.length) {
@@ -793,11 +800,36 @@ function applyFilters() {
   const unidades = MS.unidade;
   const granjas  = MS.granja;
   const lotes    = MS.lote;
+
+  // filtra base pra unidade+ano pra cascatear granja/lote
+  const baseUniAno = RAW_DATA.filter(r => {
+    if (anos.size     < MS_VALS.anomes.length  && !anos.has(r[COL.ANOMES]))     return false;
+    if (unidades.size < MS_VALS.unidade.length && !unidades.has(r[COL.UNIDADE])) return false;
+    return true;
+  });
+
+  // recalcula opções disponíveis de granja e lote
+  const granjasDisp = [...new Set(baseUniAno.map(r=>r[COL.GRANJA]).filter(Boolean))].sort();
+  const lotesDisp   = [...new Set(baseUniAno.map(r=>(r[COL.LOTE]||'').toString()).filter(Boolean))].sort();
+
+  if (JSON.stringify(granjasDisp) !== JSON.stringify(MS_VALS.granja)) {
+    MS_VALS.granja = granjasDisp;
+    MS.granja = new Set(granjasDisp);
+    buildOpts('granja');
+    updateTrigger('granja');
+  }
+  if (JSON.stringify(lotesDisp) !== JSON.stringify(MS_VALS.lote)) {
+    MS_VALS.lote = lotesDisp;
+    MS.lote = new Set(lotesDisp);
+    buildOpts('lote');
+    updateTrigger('lote');
+  }
+
   FILTERED = RAW_DATA.filter(r => {
-    if (anos.size     < MS_VALS.anomes.length  && !anos.has(r[COL.ANOMES]))                     return false;
-    if (unidades.size < MS_VALS.unidade.length && !unidades.has(r[COL.UNIDADE]))                 return false;
-    if (granjas.size  < MS_VALS.granja.length  && !granjas.has(r[COL.GRANJA]))                   return false;
-    if (lotes.size    < MS_VALS.lote.length    && !lotes.has((r[COL.LOTE]||'').toString()))      return false;
+    if (anos.size     < MS_VALS.anomes.length  && !anos.has(r[COL.ANOMES]))                      return false;
+    if (unidades.size < MS_VALS.unidade.length && !unidades.has(r[COL.UNIDADE]))                  return false;
+    if (MS.granja.size < MS_VALS.granja.length && !MS.granja.has(r[COL.GRANJA]))                  return false;
+    if (MS.lote.size   < MS_VALS.lote.length   && !MS.lote.has((r[COL.LOTE]||'').toString()))     return false;
     return true;
   });
   const novaUnidade = unidades.size === MS_VALS.unidade.length ? '' : [...unidades].join(',');
