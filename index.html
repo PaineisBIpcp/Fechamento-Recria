@@ -534,6 +534,10 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
 
 <script>
 const COL = {
+  G_NUM:     'Femeas Prd. Num',
+  G_DEN:     'Femeas Prd. Denom.',
+  G_NUM_ANT: 'Femeas Prd. Num Ant',
+  G_DEN_ANT: 'Femeas Prd. Denom. Ant',
   ANOMES:   'Ano/Mês',
   UNIDADE:  'Unidade',
   GRANJA:   'Granja',
@@ -541,23 +545,33 @@ const COL = {
   E:        'Femeas Aloj.',
   F_VIAB:   'Saldo Fmeas Viab.',
   F_CUSTO:  'Saldo Fmeas Custo',
-  G:        'Femeas Prd.',
   H:        'Ração',
   I:        'Ração Prev. femea Qt',
+  I_NUM:    'Ração Prev. Qt Num',
+  I_DEN:    'Ração Prev. Qt Denom.',
   J:        'R$ Total',
   K:        'Meta R$',
+  K_NUM:    'Meta R$ Num',
+  K_DEN:    'Meta R$ Denom.',
   L:        'R$ Total Sem Matriz/Racao',
   M:        'Meta R$ Sem Matriz/Racao',
+  M_NUM:    'Meta R$ Sem Matriz/Racao Num',
+  M_DEN:    'Meta R$ Sem Matriz/Racao Denom.',
   E_ANT:        'Femeas Aloj. Ant',
   F_VIAB_ANT:   'Saldo Fmeas Viab. Ant',
   F_CUSTO_ANT:  'Saldo Fmeas Custo Ant',
-  G_ANT:        'Femeas Prd. Ant',
   H_ANT:        'Ração Ant',
   I_ANT:        'Ração Prev. femea Qt Ant',
+  I_NUM_ANT:    'Ração Prev. Qt Num Ant',
+  I_DEN_ANT:    'Ração Prev. Qt Denom. Ant',
   J_ANT:        'R$ Total Ant',
   K_ANT:        'Meta R$ Ant',
+  K_NUM_ANT:    'Meta R$ Num Ant',
+  K_DEN_ANT:    'Meta R$ Denom. Ant',
   L_ANT:        'R$ Total Sem Matriz/Racao Ant',
-  M_ANT:        'Meta R$ Sem Matriz/Racao Ant'
+  M_ANT:        'Meta R$ Sem Matriz/Racao Ant',
+  M_NUM_ANT:    'Meta R$ Sem Matriz/Racao Num Ant',
+  M_DEN_ANT:    'Meta R$ Sem Matriz/Racao Denom. Ant'
 };
 
 let RAW_DATA = [], FILTERED = [], CHART_DATA = [], CHARTS = {}, currentFile = '';
@@ -630,7 +644,7 @@ function parseData(rows) {
     };
   });
   /* ── VALIDAÇÃO DE COLUNAS OBRIGATÓRIAS ── */
-  const colsObrigatorias = Object.values(COL);
+  const colsObrigatorias = Object.values(COL).filter(c => !['Femeas Prd.','Ração Prev. femea Qt','Meta R$','Meta R$ Sem Matriz/Racao','Ração Prev. femea Qt Ant','Meta R$ Ant','Meta R$ Sem Matriz/Racao Ant'].includes(c));
   const keysPresentes = norm.length > 0 ? Object.keys(norm[0]) : [];
   const faltando = colsObrigatorias.filter(col => !keysPresentes.includes(col));
   if (faltando.length > 0) {
@@ -643,6 +657,7 @@ function parseData(rows) {
     const a = (r[COL.ANOMES]||'').toLowerCase();
     return a && a!=='total' && a!=='ano/mês' && r[COL.LOTE];
   });
+
   if (!RAW_DATA.length) {
     document.getElementById('loading').classList.remove('visible');
     errorEl.textContent = 'Nenhum dado encontrado. Verifique os cabeçalhos da planilha.';
@@ -835,7 +850,8 @@ function renderKPIs() {
   let kpis = [];
   if (currentPage === 'viabilidade') {
     const totalE=sumCol(d,COL.E), totalFV=sumCol(d,COL.F_VIAB);
-    const viab=totalE>0?(totalFV/totalE)*100:0, padrao=totalE>0?(sumCol(d,COL.G)/totalE)*100:0, dif=viab-padrao;
+    const gNum=sumCol(d,COL.G_NUM), gDen=sumCol(d,COL.G_DEN);
+    const viab=totalE>0?(totalFV/totalE)*100:0, padrao=gDen>0?(gNum/gDen)*100:0, dif=viab-padrao;
     kpis=[
       {label:'Fêmeas Alojadas',val:fmtK(totalE),color:'#078CAD',sub:`Saldo Viab.: ${fmtK(totalFV)}`},
       {label:'% Viabilidade',val:fmt(viab)+'%',color:viab>=padrao?'#42684D':'#DC2626',sub:`Padrão: ${fmt(padrao)}%`},
@@ -844,7 +860,8 @@ function renderKPIs() {
     ];
   } else if (currentPage === 'racao') {
     const totalF=sumCol(d,COL.F_VIAB);
-    const real=totalF>0?sumCol(d,COL.H)/totalF:0, padrao=totalF>0?sumCol(d,COL.I)/totalF:0, dif=real-padrao;
+    const real=totalF>0?sumCol(d,COL.H)/totalF:0;
+    const iDenT=sumCol(d,COL.I_DEN), padrao=iDenT>0?sumCol(d,COL.I_NUM)/iDenT:0, dif=real-padrao;
     kpis=[
       {label:'Kg/Fêmea',val:fmt(real,3)+' kg',color:'#42684D',sub:'Realizado'},
       {label:'Kg/Fêmea Padrão',val:fmt(padrao,3)+' kg',color:'#078CAD',sub:'Padrão'},
@@ -853,7 +870,8 @@ function renderKPIs() {
     ];
   } else if (currentPage === 'custo') {
     const totalF=sumCol(d,COL.F_CUSTO);
-    const real=totalF>0?sumCol(d,COL.J)/totalF:0, meta=totalF>0?sumCol(d,COL.K)/totalF:0, dif=real-meta;
+    const real=totalF>0?sumCol(d,COL.J)/totalF:0;
+    const kDenT=sumCol(d,COL.K_DEN), meta=kDenT>0?sumCol(d,COL.K_NUM)/kDenT:0, dif=real-meta;
     kpis=[
       {label:'R$/Fêmea',val:'R$ '+fmt(real,2),color:'#42684D',sub:'Realizado'},
       {label:'Meta R$/Fêmea',val:'R$ '+fmt(meta,2),color:'#078CAD',sub:'Meta'},
@@ -862,7 +880,8 @@ function renderKPIs() {
     ];
   } else if (currentPage === 'custosm') {
     const totalF=sumCol(d,COL.F_CUSTO);
-    const real=totalF>0?sumCol(d,COL.L)/totalF:0, meta=totalF>0?sumCol(d,COL.M)/totalF:0, dif=real-meta;
+    const real=totalF>0?sumCol(d,COL.L)/totalF:0;
+    const mDenT=sumCol(d,COL.M_DEN), meta=mDenT>0?sumCol(d,COL.M_NUM)/mDenT:0, dif=real-meta;
     kpis=[
       {label:'R$/Fêmea S/M&R',val:'R$ '+fmt(real,2),color:'#42684D',sub:'Realizado'},
       {label:'Meta R$/Fêmea S/M&R',val:'R$ '+fmt(meta,2),color:'#078CAD',sub:'Meta'},
@@ -879,15 +898,18 @@ function renderKPIs() {
 }
 
 /* ── PAINEL COMBINADO ── */
-function renderCombinedPanel(elId, cd, numCol, denCol, refNumCol, numColAnt, denColAnt, refNumColAnt, prefix, suffix, isPercent, invertDiff, refLabel) {
+function renderCombinedPanel(elId, cd, numCol, denCol, refNumCol, refDenCol, numColAnt, denColAnt, refNumColAnt, refDenColAnt, prefix, suffix, isPercent, invertDiff, refLabel) {
   const el = document.getElementById(elId);
   if (!el) return;
 
   const { cur, prev } = getYears(cd);
   const mul = isPercent ? 100 : 1;
 
-  const valCur = ratio(cd, numCol, denCol) * mul;
-  const refCur = refNumCol ? ratio(cd, refNumCol, denCol) * mul : null;
+  const cdCur  = cd.filter(r => getYear(r[COL.ANOMES]) === cur);
+  const cdPrev = cd.filter(r => getYear(r[COL.ANOMES]) === prev);
+
+  const valCur = ratio(cdCur, numCol, denCol) * mul;
+  const refCur = refNumCol ? ratio(cdCur, refNumCol, refDenCol || denCol) * mul : null;
   const difCur = refCur !== null ? valCur - refCur : null;
 
   let badgeCls, badgeArrow;
@@ -908,8 +930,8 @@ function renderCombinedPanel(elId, cd, numCol, denCol, refNumCol, numColAnt, den
 
   let prevHtml = '';
   if (prev && numColAnt) {
-    const valPrev = ratio(cd, numColAnt, denColAnt) * mul;
-    const refPrev = refNumColAnt ? ratio(cd, refNumColAnt, denColAnt) * mul : null;
+    const valPrev = ratio(cdPrev, numColAnt, denColAnt) * mul;
+    const refPrev = refNumColAnt ? ratio(cdPrev, refNumColAnt, refDenColAnt || refDenCol || denColAnt) * mul : null;
     const difPrev = refPrev !== null ? valPrev - refPrev : null;
 
     let pBadgeCls, pBadgeArrow;
@@ -1116,8 +1138,8 @@ function renderIndicator(cfg, updateChart) {
 
   renderCombinedPanel(
     `panel-${cfg.key}`, cd,
-    cfg.numCol, cfg.denCol, cfg.refNumCol,
-    cfg.numColAnt, cfg.denColAnt, cfg.refNumColAnt,
+    cfg.numCol, cfg.denCol, cfg.refNumCol, cfg.refDenCol,
+    cfg.numColAnt, cfg.denColAnt, cfg.refNumColAnt, cfg.refDenColAnt,
     cfg.prefix, cfg.suffix, cfg.isPercent, cfg.invertDiff,
     cfg.refLabel || (cfg.invertDiff ? 'Meta' : 'Padrão')
   );
@@ -1160,7 +1182,7 @@ function renderIndicator(cfg, updateChart) {
       const refData = mesKeys.map(m => {
         const rowsCur = (byYearMes[curYear]||{})[m] || [];
         if (!rowsCur.length) return null;
-        const den = sumCol(rowsCur, cfg.denCol);
+        const den = sumCol(rowsCur, cfg.refDenCol || cfg.denCol);
         if (den === 0) return null;
         const num = sumCol(rowsCur, cfg.refNumCol);
         if (num === 0) return null;
@@ -1232,7 +1254,7 @@ function renderSummaryTable(cfg, cd) {
   function metaMes(m) {
     const rowsCur = (byYearMes[curYear]||{})[m] || [];
     if (!rowsCur.length) return null;
-    const den = sumCol(rowsCur, cfg.denCol);
+    const den = sumCol(rowsCur, cfg.refDenCol || cfg.denCol);
     if (den === 0) return null;
     const num = sumCol(rowsCur, cfg.refNumCol);
     if (num === 0) return null;
@@ -1244,7 +1266,7 @@ function renderSummaryTable(cfg, cd) {
     mesKeys.forEach(m => {
       const rowsCur = (byYearMes[curYear]||{})[m] || [];
       if (!rowsCur.length) return;
-      const den = sumCol(rowsCur, cfg.denCol);
+      const den = sumCol(rowsCur, cfg.refDenCol || cfg.denCol);
       if (den === 0) return;
       const num = sumCol(rowsCur, cfg.refNumCol);
       if (num === 0) return;
@@ -1309,14 +1331,18 @@ function renderAll(updateChart=true) {
 
   renderIndicator({
     key:'viabilidade', baseTitle:'% Viabilidade — Realizado vs Padrão',
-    numCol:COL.F_VIAB, denCol:COL.E, refNumCol:COL.G,
-    numColAnt:COL.F_VIAB_ANT, denColAnt:COL.E_ANT, refNumColAnt:COL.G_ANT,
+
+    numCol:COL.F_VIAB, denCol:COL.E, 
+    refNumCol:COL.G_NUM, refDenCol:COL.G_DEN,
+
+    numColAnt:COL.F_VIAB_ANT, denColAnt:COL.E_ANT, refNumColAnt:COL.G_NUM_ANT, refDenColAnt:COL.G_DEN_ANT,
     prefix:'', suffix:'%', yLabel:'%',
     isPercent:true, invertDiff:false, decimals:2,
     tableHead:['Ano/Mês','Unidade','Granja','Lote','% Viabilidade','% Padrão','Diferença'],
     tableRow: r => {
-      const e=n(r[COL.E]),f=n(r[COL.F_VIAB]),g=n(r[COL.G]);
-      const viab=e>0?(f/e)*100:0, padrao=e>0?(g/e)*100:0, dif=viab-padrao;
+      const e=n(r[COL.E]),f=n(r[COL.F_VIAB]);
+      const gNum=n(r[COL.G_NUM]),gDen=n(r[COL.G_DEN]);
+      const viab=e>0?(f/e)*100:0, padrao=gDen>0?(gNum/gDen)*100:0, dif=viab-padrao;
       return `<tr><td>${r[COL.ANOMES]}</td><td>${r[COL.UNIDADE]||'—'}</td><td>${r[COL.GRANJA]}</td><td>${r[COL.LOTE]}</td>
         <td>${fmt(viab)}%</td><td>${fmt(padrao)}%</td><td>${semBadge(dif,false)}</td></tr>`;
     }
@@ -1324,14 +1350,15 @@ function renderAll(updateChart=true) {
 
   renderIndicator({
     key:'racao', baseTitle:'KG Ração por Fêmea — Realizado vs Padrão',
-    numCol:COL.H, denCol:COL.F_VIAB, refNumCol:COL.I,
-    numColAnt:COL.H_ANT, denColAnt:COL.F_VIAB_ANT, refNumColAnt:COL.I_ANT,
+    numCol:COL.H, denCol:COL.F_VIAB, refNumCol:COL.I_NUM, refDenCol:COL.I_DEN,
+    numColAnt:COL.H_ANT, denColAnt:COL.F_VIAB_ANT, refNumColAnt:COL.I_NUM_ANT, refDenColAnt:COL.I_DEN_ANT,
     prefix:'', suffix:' kg', yLabel:'kg/fêmea',
     isPercent:false, invertDiff:true, decimals:3,
     tableHead:['Ano/Mês','Unidade','Granja','Lote','Kg/Fêmea','Padrão kg/Fêmea','Diferença'],
     tableRow: r => {
-      const f=n(r[COL.F_VIAB]),h=n(r[COL.H]),i=n(r[COL.I]);
-      const real=f>0?h/f:0, padrao=f>0?i/f:0, dif=real-padrao;
+      const f=n(r[COL.F_VIAB]),h=n(r[COL.H]);
+      const iNum=n(r[COL.I_NUM]),iDen=n(r[COL.I_DEN]);
+      const real=f>0?h/f:0, padrao=iDen>0?iNum/iDen:0, dif=real-padrao;
       return `<tr><td>${r[COL.ANOMES]}</td><td>${r[COL.UNIDADE]||'—'}</td><td>${r[COL.GRANJA]}</td><td>${r[COL.LOTE]}</td>
         <td>${fmt(real,3)}</td><td>${fmt(padrao,3)}</td><td>${semBadge(dif,true)}</td></tr>`;
     }
@@ -1339,14 +1366,15 @@ function renderAll(updateChart=true) {
 
   renderIndicator({
     key:'custo', baseTitle:'R$/Fêmea Recriada — Realizado vs Meta',
-    numCol:COL.J, denCol:COL.F_CUSTO, refNumCol:COL.K,
-    numColAnt:COL.J_ANT, denColAnt:COL.F_CUSTO_ANT, refNumColAnt:COL.K_ANT,
+    numCol:COL.J, denCol:COL.F_CUSTO, refNumCol:COL.K_NUM, refDenCol:COL.K_DEN,
+    numColAnt:COL.J_ANT, denColAnt:COL.F_CUSTO_ANT, refNumColAnt:COL.K_NUM_ANT, refDenColAnt:COL.K_DEN_ANT,
     prefix:'R$ ', suffix:'', yLabel:'R$/fêmea',
     isPercent:false, invertDiff:true, decimals:3,
     tableHead:['Ano/Mês','Unidade','Granja','Lote','R$/Fêmea','Meta R$/Fêmea','Dif. Meta'],
     tableRow: r => {
-      const f=n(r[COL.F_CUSTO]),j=n(r[COL.J]),k=n(r[COL.K]);
-      const real=f>0?j/f:0, meta=f>0?k/f:0, dif=real-meta;
+      const f=n(r[COL.F_CUSTO]),j=n(r[COL.J]);
+      const kNum=n(r[COL.K_NUM]),kDen=n(r[COL.K_DEN]);
+      const real=f>0?j/f:0, meta=kDen>0?kNum/kDen:0, dif=real-meta;
       return `<tr><td>${r[COL.ANOMES]}</td><td>${r[COL.UNIDADE]||'—'}</td><td>${r[COL.GRANJA]}</td><td>${r[COL.LOTE]}</td>
         <td>R$ ${fmt(real,2)}</td><td>R$ ${fmt(meta,2)}</td><td>${semBadge(dif,true)}</td></tr>`;
     }
@@ -1354,14 +1382,15 @@ function renderAll(updateChart=true) {
 
   renderIndicator({
     key:'custosm', baseTitle:'R$/Fêmea Sem Matriz e Ração — Realizado vs Meta',
-    numCol:COL.L, denCol:COL.F_CUSTO, refNumCol:COL.M,
-    numColAnt:COL.L_ANT, denColAnt:COL.F_CUSTO_ANT, refNumColAnt:COL.M_ANT,
+    numCol:COL.L, denCol:COL.F_CUSTO, refNumCol:COL.M_NUM, refDenCol:COL.M_DEN,
+    numColAnt:COL.L_ANT, denColAnt:COL.F_CUSTO_ANT, refNumColAnt:COL.M_NUM_ANT, refDenColAnt:COL.M_DEN_ANT,
     prefix:'R$ ', suffix:'', yLabel:'R$/fêmea',
     isPercent:false, invertDiff:true, decimals:3,
     tableHead:['Ano/Mês','Unidade','Granja','Lote','R$/Fêmea S/M&R','Meta R$/Fêmea S/M&R','Dif. Meta'],
     tableRow: r => {
-      const f=n(r[COL.F_CUSTO]),l=n(r[COL.L]),m=n(r[COL.M]);
-      const real=f>0?l/f:0, meta=f>0?m/f:0, dif=real-meta;
+      const f=n(r[COL.F_CUSTO]),l=n(r[COL.L]);
+      const mNum=n(r[COL.M_NUM]),mDen=n(r[COL.M_DEN]);
+      const real=f>0?l/f:0, meta=mDen>0?mNum/mDen:0, dif=real-meta;
       return `<tr><td>${r[COL.ANOMES]}</td><td>${r[COL.UNIDADE]||'—'}</td><td>${r[COL.GRANJA]}</td><td>${r[COL.LOTE]}</td>
         <td>R$ ${fmt(real,2)}</td><td>R$ ${fmt(meta,2)}</td><td>${semBadge(dif,true)}</td></tr>`;
     }
