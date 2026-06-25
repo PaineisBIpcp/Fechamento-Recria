@@ -451,7 +451,7 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
       <div class="chart-block">
         <div class="chart-block-header">
           <button class="export-pdf-btn" id="export-btn-viabilidade" onclick="exportToPDF('viabilidade')" style="margin-left:auto">
-            Exportar PDF
+            Exportar Imagem
           </button>
         </div>
         <div class="export-capture" id="capture-viabilidade">
@@ -472,7 +472,7 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
       <div class="chart-block">
         <div class="chart-block-header">
           <button class="export-pdf-btn" id="export-btn-racao" onclick="exportToPDF('racao')" style="margin-left:auto">
-            Exportar PDF
+            Exportar Imagem
           </button>
         </div>
         <div class="export-capture" id="capture-racao">
@@ -493,7 +493,7 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
       <div class="chart-block">
         <div class="chart-block-header">
           <button class="export-pdf-btn" id="export-btn-custo" onclick="exportToPDF('custo')" style="margin-left:auto">
-            Exportar PDF
+            Exportar Imagem
           </button>
         </div>
         <div class="export-capture" id="capture-custo">
@@ -514,7 +514,7 @@ body{background:var(--bg-page);color:var(--text-1);font-family:'Inter',sans-seri
       <div class="chart-block">
         <div class="chart-block-header">
           <button class="export-pdf-btn" id="export-btn-custosm" onclick="exportToPDF('custosm')" style="margin-left:auto">
-            Exportar PDF
+            Exportar Imagem
           </button>
         </div>
         <div class="export-capture" id="capture-custosm">
@@ -1142,13 +1142,13 @@ function buildProChart(canvasId, key, yearSeries, yLabel, decimals) {
   }));
 }
 
-/* ── EXPORTAR PDF ── */
+/* ── Exportar Imagem ── */
 async function exportToPDF(key) {
   const captureEl = document.getElementById(`capture-${key}`);
   const btn = document.getElementById(`export-btn-${key}`);
   if (!captureEl) return;
   const originalBtnHtml = btn ? btn.innerHTML : '';
-  if (btn) { btn.disabled = true; btn.innerHTML = 'Gerando PDF…'; }
+  if (btn) { btn.disabled = true; btn.innerHTML = 'Gerando imagem…'; }
   try {
     const canvas = await html2canvas(captureEl, {
       scale: 2,
@@ -1156,15 +1156,12 @@ async function exportToPDF(key) {
       useCORS: true,
       logging: false
     });
-    const imgData = canvas.toDataURL('image/png');
-    const { jsPDF } = window.jspdf;
-    const orientation = canvas.width >= canvas.height ? 'landscape' : 'portrait';
-    const pdf = new jsPDF({ orientation, unit: 'px', format: [canvas.width, canvas.height] });
-    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-    const blobUrl = pdf.output('bloburl');
-    window.open(blobUrl, '_blank');
+    const link = document.createElement('a');
+    link.download = `GMI_Recria_${key}_${new Date().toISOString().slice(0,10)}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
   } catch (err) {
-    alert('Erro ao gerar PDF: ' + err.message);
+    alert('Erro ao gerar imagem: ' + err.message);
   } finally {
     if (btn) { btn.disabled = false; btn.innerHTML = originalBtnHtml; }
   }
