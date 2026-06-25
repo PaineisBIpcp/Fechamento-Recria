@@ -660,11 +660,20 @@ function parseData(rows) {
     const lote = (r[COL.LOTE]||'').toString().trim();
     if (!lote) return false;
     const temDados = n(r[COL.E]) !== 0 || n(r[COL.F_VIAB]) !== 0 || n(r[COL.F_CUSTO]) !== 0 ||
-                     n(r[COL.H]) !== 0 || n(r[COL.J]) !== 0 || n(r[COL.L]) !== 0;
+                     n(r[COL.H]) !== 0 || n(r[COL.J]) !== 0 || n(r[COL.L]) !== 0 ||
+                     n(r[COL.E_ANT]) !== 0 || n(r[COL.F_VIAB_ANT]) !== 0 || n(r[COL.F_CUSTO_ANT]) !== 0 ||
+                     n(r[COL.H_ANT]) !== 0 || n(r[COL.J_ANT]) !== 0 || n(r[COL.L_ANT]) !== 0 ||
+                     n(r[COL.K_NUM]) !== 0 || n(r[COL.M_NUM]) !== 0 ||
+                     n(r[COL.G_NUM]) !== 0 || n(r[COL.I_NUM]) !== 0 ||
+                     n(r[COL.K_NUM_ANT]) !== 0 || n(r[COL.M_NUM_ANT]) !== 0 ||
+                     n(r[COL.G_NUM_ANT]) !== 0 || n(r[COL.I_NUM_ANT]) !== 0 ||
+                     n(r[COL.K_DEN]) !== 0 || n(r[COL.M_DEN]) !== 0 ||
+                     n(r[COL.G_DEN]) !== 0 || n(r[COL.I_DEN]) !== 0 ||
+                     n(r[COL.K_DEN_ANT]) !== 0 || n(r[COL.M_DEN_ANT]) !== 0 ||
+                     n(r[COL.G_DEN_ANT]) !== 0 || n(r[COL.I_DEN_ANT]) !== 0;
     if (!temDados) return false;
     return true;
   });
-
   if (!RAW_DATA.length) {
     document.getElementById('loading').classList.remove('visible');
     errorEl.textContent = 'Nenhum dado encontrado. Verifique os cabeçalhos da planilha.';
@@ -942,7 +951,7 @@ function renderCombinedPanel(elId, cd, numCol, denCol, refNumCol, refDenCol, num
   const cdPrev = cd.filter(r => getYear(r[COL.ANOMES]) === prev);
 
   const valCur = ratio(cdCur, numCol, denCol) * mul;
-  const refCur = refNumCol ? ratio(cdCur, refNumCol, refDenCol || denCol) * mul : null;
+  const refCur = refNumCol ? ratio(cdCur, refNumCol, refDenCol) * mul : null;
   const difCur = refCur !== null ? valCur - refCur : null;
 
   let badgeCls, badgeArrow;
@@ -964,7 +973,7 @@ function renderCombinedPanel(elId, cd, numCol, denCol, refNumCol, refDenCol, num
   let prevHtml = '';
   if (prev && numColAnt) {
     const valPrev = ratio(cdPrev, numColAnt, denColAnt) * mul;
-    const refPrev = refNumColAnt ? ratio(cdPrev, refNumColAnt, refDenColAnt || refDenCol || denColAnt) * mul : null;
+    const refPrev = refNumColAnt ? ratio(cdPrev, refNumColAnt, refDenColAnt) * mul : null;
     const difPrev = refPrev !== null ? valPrev - refPrev : null;
 
     let pBadgeCls, pBadgeArrow;
@@ -1212,17 +1221,17 @@ function renderIndicator(cfg, updateChart) {
     }));
 
     if (cfg.refNumCol && cfg.refNumColAnt) {
-      const refData = mesKeys.map(m => {
-        const rowsCur = (byYearMes[curYear]||{})[m] || [];
-        if (!rowsCur.length) return null;
-        const den = sumCol(rowsCur, cfg.refDenCol || cfg.denCol);
-        if (den === 0) return null;
-        const num = sumCol(rowsCur, cfg.refNumCol);
-        if (num === 0) return null;
-        return parseFloat((num / den * mul).toFixed(4));
-      });
-      yearSeries.splice(1, 0, { year: 'Padrão / Meta', isRef: true, data: refData });
-    }
+  const refData = mesKeys.map(m => {
+    const rowsCur = (byYearMes[curYear]||{})[m] || [];
+    if (!rowsCur.length) return null;
+    // só plota meta se o realizado do mês existe
+    const den = sumCol(rowsCur, cfg.refDenCol);
+    if (den === 0) return null;
+    const num = sumCol(rowsCur, cfg.refNumCol);
+    return parseFloat((num / den * mul).toFixed(4));
+  });
+  yearSeries.splice(1, 0, { year: 'Padrão / Meta', isRef: true, data: refData });
+}
 
     buildProChart(`chart-${cfg.key}`, cfg.key, yearSeries, cfg.yLabel, cfg.decimals);
   }
@@ -1287,25 +1296,22 @@ function renderSummaryTable(cfg, cd) {
   function metaMes(m) {
     const rowsCur = (byYearMes[curYear]||{})[m] || [];
     if (!rowsCur.length) return null;
-    const den = sumCol(rowsCur, cfg.refDenCol || cfg.denCol);
+    const den = sumCol(rowsCur, cfg.refDenCol);
     if (den === 0) return null;
-    const num = sumCol(rowsCur, cfg.refNumCol);
-    if (num === 0) return null;
-    return num / den * mul;
+    return sumCol(rowsCur, cfg.refNumCol) / den * mul;
   }
 
-  function metaAcum() {
-    let numT=0, denT=0;
+function metaAcum() {
+    let numT = 0, denT = 0;
     mesKeys.forEach(m => {
       const rowsCur = (byYearMes[curYear]||{})[m] || [];
       if (!rowsCur.length) return;
-      const den = sumCol(rowsCur, cfg.refDenCol || cfg.denCol);
-      if (den === 0) return;
-      const num = sumCol(rowsCur, cfg.refNumCol);
-      if (num === 0) return;
-      numT += num; denT += den;
+      const denMeta = sumCol(rowsCur, cfg.refDenCol);
+      if (denMeta === 0) return;
+      numT += sumCol(rowsCur, cfg.refNumCol);
+      denT += denMeta;
     });
-    return denT !== 0 ? numT/denT*mul : null;
+    return denT !== 0 ? numT / denT * mul : null;
   }
 
   function cell(v) {
